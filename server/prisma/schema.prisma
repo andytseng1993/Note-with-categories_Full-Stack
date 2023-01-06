@@ -6,6 +6,35 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model Note {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  tags      Tag[]    @relation(fields: [tagId], references: [id])
+  tagId     String[] @db.ObjectId
+}
+
+model User {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  name       String?
+  password   String
+  registerAt DateTime @default(now())
+  isAdmin    Boolean
+  notes      Note[]
+}
+
+model Tag {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  name   String   @unique
+  notes  Note[]   @relation(fields: [noteId], references: [id])
+  noteId String[] @db.ObjectId
 }
