@@ -1,0 +1,23 @@
+{
+  "name": "note-with-category",
+  "version": "1.0.0",
+  "description": "Markdown Supported Note Taking With Categories",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon sewrver.js"
+  },
+  "keywords": [],
+  "author": "Yuyu",
+  "license": "MIT",
+  "Type": "module",
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.8.1"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.8.1"
+  }
+}
