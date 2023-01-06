@@ -11,15 +11,17 @@ datasource db {
 }
 
 model Note {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  body      String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
-  tags      Tag[]    @relation(fields: [tagId], references: [id])
-  tagId     String[] @db.ObjectId
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  body       String
+  createdAt  DateTime   @default(now())
+  updateAt   DateTime   @updatedAt
+  author     User       @relation(fields: [authorId], references: [id])
+  authorId   String     @db.ObjectId
+  tags       Tag[]      @relation(fields: [tagId], references: [id])
+  tagId      String[]   @db.ObjectId
+  categories Category[] @relation(fields: [categoryId], references: [id])
+  categoryId String[]   @db.ObjectId
 }
 
 model User {
@@ -28,7 +30,7 @@ model User {
   name       String?
   password   String
   registerAt DateTime @default(now())
-  isAdmin    Boolean
+  role       Role     @default(USER)
   notes      Note[]
 }
 
@@ -37,4 +39,16 @@ model Tag {
   name   String   @unique
   notes  Note[]   @relation(fields: [noteId], references: [id])
   noteId String[] @db.ObjectId
+}
+
+model Category {
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  notes  Note[]   @relation(fields: [noteId], references: [id])
+  noteId String[] @db.ObjectId
+}
+
+enum Role {
+  USER
+  ADMIN
 }
