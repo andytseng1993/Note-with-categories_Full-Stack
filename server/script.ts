@@ -20,12 +20,8 @@ app.listen(port,()=>console.log(`Sever started on port ${port}`))
 //     // Connect the client
 //     await prisma.$connect()
 //     //... you will write your Prisma Client queries here
-//     const category =await prisma.category.findMany({
-//         include:{
-//             notes:true
-//         }
-//     })
-//     console.log(category);
+//     const note =await prisma.note.deleteMany()
+//     console.log(note);
     
 // }
     

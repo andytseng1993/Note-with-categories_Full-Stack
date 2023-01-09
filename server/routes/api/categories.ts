@@ -5,10 +5,17 @@ const router = express.Router()
 const prisma = new PrismaClient()
 
 //@route GET api/categories
-//@desc All categories
+//@desc All categories and notes _count
 //@access Public
 router.get('/',async(req,res)=>{
-    const category =await prisma.category.findMany()
+    const category =await prisma.category.findMany({
+        orderBy: {
+            createdAt:'desc'
+        },
+        include:{
+            _count:{select:{notes:true}} 
+        }
+    })
     return res.json(category)
 })
 
@@ -29,16 +36,21 @@ router.post('/',async(req,res)=>{
 //@desc A category
 //@access Public
 router.put('/:id',async(req,res)=>{
-    const {id,name} = req.body
-    const category = await prisma.category.update({
-        where:{
-            id
-        },
-        data:{
-            name
-        }
-    })
-    return res.json(category)
+    const {id} = req.params
+    const {name} = req.body
+    try {
+        const category = await prisma.category.update({
+            where:{
+                id
+            },
+            data:{
+                name
+            }
+        })
+        return res.json(category)
+    } catch (error) {
+        res.status(404).json({success:false})
+    }
 })
 
 //@route DELETE api/categories/:id
@@ -46,10 +58,15 @@ router.put('/:id',async(req,res)=>{
 //@access Public
 router.delete('/:id',async(req,res)=>{
     const {id} = req.body
-    const category = await prisma.category.delete({
-        where:{id}
-    })
-    return res.json(category)
+    try {
+        const category = await prisma.category.delete({
+            where:{id}
+        })
+        return res.json(category)
+    } catch (error) {
+        res.status(404).json({success:false})
+    }
+    
 })
 
 export default router
