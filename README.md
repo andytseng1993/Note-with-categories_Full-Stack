@@ -53,6 +53,11 @@ Then create a record in main()
   - api/categories/:id -- PUT, DELETE
 
 - notes
+
   - api/notes -- GET, POST
   - api/:categoryId/notes -- GET, POST
   - api/:categoryId/notes/:id --GET, PUT, DELETE
+
+- tags
+  - api/tags -- GET,POST
+  - api/tags/:id -- PUT, DELET
