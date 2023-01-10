@@ -21,6 +21,8 @@ In mongodb, ID
 Run `npx prisma generate`, then create `script.ts` file to bring prisma client.
 In`package.json`, add `"scripts":{"dev": "nodemon script.ts"}`
 In `script.ts`
+Then run `npx prisma db push`
+Prisma schema loaded from prisma/schema.prisma
 
 ```
     import { PrismaClient } from '@prisma/client'
@@ -54,10 +56,25 @@ Then create a record in main()
 
 - notes
 
-  - api/notes -- GET, POST
-  - api/:categoryId/notes -- GET, POST
-  - api/:categoryId/notes/:id --GET, PUT, DELETE
+  - api/notes -- GET
+  - api/notes/:categoryId -- GET, POST
+  - api/notes/:categoryId/:noteId -- PUT, DELETE
 
 - tags
+
   - api/tags -- GET,POST
   - api/tags/:id -- PUT, DELET
+
+- register user
+  - api/users -- POST
+    - Use password to create salt & hash from bcryptjs, and save to database, then use user.id to create token from jsonwebtoken, and return to client.
+
+## Tips
+
+`dotenv` doesn't tell typescript anything. So, provide a default:
+
+```
+  const secret: string = process.env.WHATEVER ?? 'whatever default'
+```
+
+It can fix undifined problem!
