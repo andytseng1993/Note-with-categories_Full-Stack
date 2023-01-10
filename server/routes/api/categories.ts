@@ -7,13 +7,13 @@ const prisma = new PrismaClient()
 //@route GET api/categories
 //@desc All categories and notes _count
 //@access Public
-router.get('/',async(req,res)=>{
-    const category =await prisma.category.findMany({
+router.get('/', async (req, res) => {
+    const category = await prisma.category.findMany({
         orderBy: {
-            createdAt:'desc'
+            createdAt: 'desc'
         },
-        include:{
-            _count:{select:{notes:true}} 
+        include: {
+            _count: { select: { notes: true } }
         }
     })
     return res.json(category)
@@ -22,51 +22,51 @@ router.get('/',async(req,res)=>{
 //@route POST api/categories
 //desc return A category
 //@access Public
-router.post('/',async(req,res)=>{
-    const {name} = req.body
+router.post('/', async (req, res) => {
+    const { name } = req.body
     const category = await prisma.category.create({
-        data:{
+        data: {
             name
         }
     })
-    return res.json(category)
+    return res.status(201).json(category)
 })
 
 //@route PUT api/categories/:id
 //@desc A category
 //@access Public
-router.put('/:id',async(req,res)=>{
-    const {id} = req.params
-    const {name} = req.body
+router.put('/:id', async (req, res) => {
+    const { id } = req.params
+    const { name } = req.body
     try {
         const category = await prisma.category.update({
-            where:{
+            where: {
                 id
             },
-            data:{
+            data: {
                 name
             }
         })
         return res.json(category)
     } catch (error) {
-        res.status(404).json({success:false})
+        res.status(404).json({ success: false })
     }
 })
 
 //@route DELETE api/categories/:id
 //@desc A category
 //@access Public
-router.delete('/:id',async(req,res)=>{
-    const {id} = req.body
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params
     try {
-        const category = await prisma.category.delete({
-            where:{id}
+        await prisma.category.delete({
+            where: { id }
         })
-        return res.json(category)
+        return res.status(204)
     } catch (error) {
-        res.status(404).json({success:false})
+        res.status(404).json({ success: false })
     }
-    
+
 })
 
 export default router

@@ -49,6 +49,8 @@ Then create a record in main()
 
 ## Create routes/api
 
+`npm i --save-dev bcryptjs jsonwebtoken @types/bcryptjs @types/jsonwebtoken`
+
 - categories
 
   - api/categories -- GET, POST
@@ -57,8 +59,9 @@ Then create a record in main()
 - notes
 
   - api/notes -- GET
+  - api/notes/:noteId -- DELETE
   - api/notes/:categoryId -- GET, POST
-  - api/notes/:categoryId/:noteId -- PUT, DELETE
+  - api/notes/:categoryId/:noteId -- PUT
 
 - tags
 
@@ -67,7 +70,8 @@ Then create a record in main()
 
 - register user
   - api/users -- POST
-    - Use password to create salt & hash from bcryptjs, and save to database, then use user.id to create token from jsonwebtoken, and return to client.
+    - Use password to create salt & hash from [bcryptjs](https://www.npmjs.com/package/bcryptjs), and save to database, then use user.id to create token from [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), and return to client by cookie.
+  - api/users/login -- POST
 
 ## Tips
 

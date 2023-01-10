@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import express from 'express'
 import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
 import notes from './routes/api/notes'
 import categories from './routes/api/categories'
 import users from './routes/api/users'
@@ -11,6 +12,8 @@ const app = express()
 const port = process.env.PORT || 3000
 const prisma = new PrismaClient()
 app.use(express.json())
+app.use(cookieParser())
+
 app.use('/api/notes', notes)
 app.use('/api/categories', categories)
 app.use('/api/tags', tags)

@@ -8,14 +8,14 @@ const prisma = new PrismaClient()
 //@route GET api/tags
 //@desc All tags
 //@access Public
-router.get('/',async(req,res)=>{
+router.get('/', async (req, res) => {
     const tags = await prisma.tag.findMany({
-        select:{
-            name:true,
-            notes:{
-                select:{
-                    id:true,
-                    title:true
+        select: {
+            name: true,
+            notes: {
+                select: {
+                    id: true,
+                    title: true
                 }
             }
         }
@@ -26,32 +26,32 @@ router.get('/',async(req,res)=>{
 //@route POST api/tags
 //@desc return a tag
 //@access Public
-router.post('/',async(req,res)=>{
-    const {name,noteId} = req.body
+router.post('/', async (req, res) => {
+    const { name, noteId } = req.body
     const tag = await prisma.tag.create({
-        data:{
+        data: {
             name,
             noteId
         }
     })
-    res.json(tag)
+    res.status(201).json(tag)
 })
 
 //@route DELETE api/tags
 //@desc return a tag
 //@access Public
 
-router.delete('/:tagId',async(req,res)=>{
-    const {tagId} = req.params
+router.delete('/:tagId', async (req, res) => {
+    const { tagId } = req.params
     try {
-        const tag = await prisma.tag.delete({
-            where:{
+        await prisma.tag.delete({
+            where: {
                 id: tagId
             }
         })
-        res.json(tag)
+        res.status(204)
     } catch (error) {
-        res.status(404).json({success:false})
+        res.status(404).json({ success: false })
     }
 })
 
