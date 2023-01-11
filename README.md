@@ -72,13 +72,22 @@ Then create a record in main()
   - api/users -- POST
     - Use password to create salt & hash from [bcryptjs](https://www.npmjs.com/package/bcryptjs), and save to database, then use user.id to create token from [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), and return to client by cookie.
   - api/users/login -- POST
+  - api/auth/user -- GET
+    - Use jsonwebtoken to verify cookie's sessionId, then use prisma to findUnique by id to get user info.
 
 ## Tips
 
-`dotenv` doesn't tell typescript anything. So, provide a default:
+1. `dotenv` doesn't tell typescript anything. So, provide a default:
 
 ```
   const secret: string = process.env.WHATEVER ?? 'whatever default'
 ```
 
-It can fix undifined problem!
+It can fix undifined problem! 2. Typescript don't know about JwtPayload. Data declaration should help.
+
+```
+  interface JwtPayload {
+    id: string
+}
+  const { id } = jwt.verify(token, 'thisisfromabhishek') as JwtPayload
+```

@@ -2,17 +2,14 @@ import { PrismaClient } from "@prisma/client";
 import express from 'express'
 import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
 
-dotenv.config()
 const router = express.Router()
 const prisma = new PrismaClient()
-
+const secret: string = process.env.PRIVATE_KEY ?? 'secret'
 //@route POST api/users
 //@desc Register user
 //@access Public
 router.post('/', async (req, res) => {
-    dotenv.config()
     const { email, name, password } = req.body
     if (!email || !name || !password) res.status(400).json('Please enter all fields.')
 
@@ -28,7 +25,7 @@ router.post('/', async (req, res) => {
                         password: hash
                     }
                 })
-                const secret: string = process.env.PRIVATE_KEY ?? 'secret'
+
                 jwt.sign({ id: user.id }, secret, { expiresIn: '1h' },
                     (err, token) => {
                         if (err) throw err
@@ -36,7 +33,8 @@ router.post('/', async (req, res) => {
                             .cookie('_session_Id', token, {
                                 secure: true,
                                 httpOnly: true,
-                                sameSite: "none"
+                                sameSite: "none",
+                                maxAge: 360000
                             })
                             .json({
                                 user: {
@@ -51,6 +49,7 @@ router.post('/', async (req, res) => {
         })
     })
 })
+
 
 //@route POST api/users/login
 //@desc Login user
@@ -69,7 +68,6 @@ router.post('/login', async (req, res) => {
             .then(isMach => {
                 if (!isMach) return res.status(400).json('Invalid credentials')
 
-                const secret: string = process.env.PRIVATE_KEY ?? 'secret'
                 jwt.sign({ id: user.id }, secret, { expiresIn: '1h' },
                     (err, token) => {
                         if (err) throw err
@@ -77,7 +75,8 @@ router.post('/login', async (req, res) => {
                             .cookie('_session_Id', token, {
                                 secure: true,
                                 httpOnly: true,
-                                sameSite: "none"
+                                sameSite: "none",
+                                maxAge: 360000
                             })
                             .json({
                                 user: {
