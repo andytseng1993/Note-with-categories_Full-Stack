@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js",
-    "dev": "nodemon script.ts"
+    "server": "nodemon script.ts",
+    "client": "npm run dev --prefix ../client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "Yuyu",
@@ -29,6 +30,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@prisma/client": "^4.8.1"
+    "@prisma/client": "^4.8.1",
+    "concurrently": "^7.6.0"
   }
 }

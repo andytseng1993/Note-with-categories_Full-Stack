@@ -1,3 +1,5 @@
+# Setup Server
+
 ## Install up Server:
 
 Run `npm i --save-dev express nodemon prisma dotenv typescript ts-node @types/node`  
@@ -91,3 +93,8 @@ It can fix undifined problem! 2. Typescript don't know about JwtPayload. Data de
 }
   const { id } = jwt.verify(token, 'thisisfromabhishek') as JwtPayload
 ```
+
+# Setup Client
+
+Run `npm create vite`, then select react and typescript.
+Install `npm i react-bootstrap bootstrap react-router-dom`, and setup concurrently in server package, then run both server.
