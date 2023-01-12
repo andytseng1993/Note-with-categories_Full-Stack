@@ -13,8 +13,7 @@ import HomePage from "./pages/HomePage";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/">
-        <Route index element={<HomePage />}></Route>
+      <Route path="/" element={<HomePage />}>
         <Route path="/new" element={<h1>New??!</h1>} />
         <Route path="/:id">
           <Route index element={<h1>Show note</h1>} />

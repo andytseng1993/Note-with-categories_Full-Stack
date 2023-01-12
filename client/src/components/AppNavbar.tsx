@@ -6,7 +6,7 @@ import { PropsWithChildren } from 'react'
 const AppNavbar = ({ children }: PropsWithChildren) => {
     return (
         <>
-            <Navbar expand="md" bg="light">
+            <Navbar expand="md" bg="dark" variant="dark">
                 <Container>
                     <Navbar.Brand href="/">NOTES</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
