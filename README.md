@@ -98,3 +98,6 @@ It can fix undifined problem! 2. Typescript don't know about JwtPayload. Data de
 
 Run `npm create vite`, then select react and typescript.
 Install `npm i react-bootstrap bootstrap react-router-dom`, and setup concurrently in server package, then run both server.
+
+Type:
+`children: PropsWithChildren`
