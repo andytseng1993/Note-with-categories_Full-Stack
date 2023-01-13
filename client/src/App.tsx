@@ -9,11 +9,13 @@ import {
 } from "react-router-dom";
 import AppNavbar from "./components/AppNavbar";
 import HomePage from "./pages/HomePage";
+import NoteLists from "./pages/NoteLists";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<HomePage />}>
+        <Route index element={<NoteLists />} />
         <Route path="/new" element={<h1>New??!</h1>} />
         <Route path="/:id">
           <Route index element={<h1>Show note</h1>} />
