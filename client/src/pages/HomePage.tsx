@@ -11,11 +11,12 @@ const HomePage = () => {
     return (
         <Container fluid={true} className='d-flex flex-row flex-grow-1' >
             <Row className="d-flex flex-grow-1">
-                <Col xs={3} lg={3} xxl={2} className='bg-light d-flex flex-column'>
+                <Col xs={3} lg={3} xxl={2} className='bg-light d-flex flex-column p-3'>
                     <Stack gap={3} className='nav flex-column mb-auto'>
-                        <Link to='/new'>
-                            <Button variant='primary' className='my-2'>+add Category</Button>
+                        <Link to='/new' >
+                            <Button variant='primary'>+add Category</Button>
                         </Link>
+                        <hr className='mt-1' />
                         <Link to='/1' className='text-reset text-decoration-none' > First</Link>
                         <Link to='/1' className='text-reset text-decoration-none' > Second item</Link>
                         <Link to='/1' className='text-reset text-decoration-none' > Third item</Link>

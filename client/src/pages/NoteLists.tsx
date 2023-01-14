@@ -1,6 +1,8 @@
 import { Row, Col, Button, Stack, Container, Form } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import CreatableReactSelect from 'react-select/creatable'
 import Notecard from "../components/Notecard"
+import TagsSelect from "../components/TagsSelect"
 
 
 const NoteLists = () => {
@@ -31,7 +33,7 @@ const NoteLists = () => {
                         <Col>
                             <Form.Group>
                                 <Form.Label>Tags</Form.Label>
-                                <Form.Control></Form.Control>
+                                <TagsSelect />
                             </Form.Group>
                         </Col>
                     </Row>
