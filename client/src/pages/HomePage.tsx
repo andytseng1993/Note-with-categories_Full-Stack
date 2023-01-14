@@ -13,19 +13,16 @@ const HomePage = () => {
 				<Col xs={3} lg={3} xxl={2} className="bg-light d-flex flex-column p-3">
 					<Stack gap={3} className="nav flex-column mb-auto">
 						<Link to="/new">
-							<Button variant="primary">+add Category</Button>
+							<Button variant="primary">+ Add Category</Button>
 						</Link>
 						<hr className="mt-1" />
 						<Link to="/1" className="text-reset text-decoration-none">
-							{' '}
 							First
 						</Link>
 						<Link to="/1" className="text-reset text-decoration-none">
-							{' '}
 							Second item
 						</Link>
 						<Link to="/1" className="text-reset text-decoration-none">
-							{' '}
 							Third item
 						</Link>
 					</Stack>
