@@ -1,3 +1,6 @@
+* {
+    --bs-nav-pills-link-active-bg: #d4e5fe;
+  }
 #root {
     display: flex;
     height: 100vh;

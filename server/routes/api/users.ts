@@ -10,8 +10,8 @@ const secret: string = process.env.PRIVATE_KEY ?? 'secret'
 //@desc Register user
 //@access Public
 router.post('/', async (req, res) => {
-    const { email, name, password } = req.body
-    if (!email || !name || !password) res.status(400).json('Please enter all fields.')
+    const { email, userName, password } = req.body
+    if (!email || !userName || !password) res.status(400).json('Please enter all fields.')
 
     //Create salt & hash
     bcrypt.genSalt(10, (err, salt) => {
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
                 const user = await prisma.user.create({
                     data: {
                         email,
-                        name,
+                        userName,
                         password: hash
                     }
                 })
@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
                             .json({
                                 user: {
                                     email: user.email,
-                                    name: user.name
+                                    userName: user.userName
                                 }
                             })
                     })
@@ -81,7 +81,7 @@ router.post('/login', async (req, res) => {
                             .json({
                                 user: {
                                     email: user.email,
-                                    name: user.name
+                                    userName: user.userName
                                 }
                             })
                     })

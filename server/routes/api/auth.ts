@@ -23,7 +23,7 @@ router.get('/user', async (req, res) => {
                 id: decode.id
             },
             select: {
-                name: true,
+                userName: true,
                 email: true,
                 registerAt: true
             }

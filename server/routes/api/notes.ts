@@ -28,7 +28,7 @@ router.get('/:categoryId', async (req, res) => {
             createdAt: true,
             author: {
                 select: {
-                    name: true
+                    userName: true
                 }
             }
         }
