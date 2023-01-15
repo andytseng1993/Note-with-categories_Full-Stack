@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
 //@access Public
 router.post('/', async (req, res) => {
     const { name } = req.body
+    if (name.trim() === '') return res.status(401).json('Please enter all fields.')
     const category = await prisma.category.create({
         data: {
             name

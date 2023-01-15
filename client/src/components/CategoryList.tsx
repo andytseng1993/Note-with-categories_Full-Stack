@@ -2,6 +2,7 @@ import { useQueries, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Button, Nav } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
+import CategoryModal from './CategoryModal'
 
 interface CategoryData {
 	id: string
@@ -31,17 +32,13 @@ const CategoryList = () => {
 				<h3>Sometihing was wrong...</h3>
 			) : (
 				<>
-					<Nav.Item as="li">
-						<Link
-							to="/new"
-							className="d-flex flex-column justify-content-center "
-						>
-							<Button variant="primary" className="px-auto">
-								+ Add Category
-							</Button>
-						</Link>
+					<Nav.Item
+						as="li"
+						className="d-flex flex-column justify-content-center"
+					>
+						<CategoryModal />
 					</Nav.Item>
-					<hr className="mt-1" />
+					<hr className="mt-3" />
 					{data.map((category) => (
 						<Nav.Item key={category.id} as="li">
 							<Link
