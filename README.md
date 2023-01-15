@@ -77,6 +77,13 @@ Then create a record in main()
   - api/auth/user -- GET
     - Use jsonwebtoken to verify cookie's sessionId, then use prisma to findUnique by id to get user info.
 
+## (Modeling and querying many-to-many relations)[https://www.prisma.io/docs/guides/database/troubleshooting-orm/help-articles/working-with-many-to-many-relations]
+
+1. To create a post and its tags, use `tags: { create: [{ name: 'dev' }, { name: 'prisma' }] }`
+2. To select existing tags to post, use `tags: { set: [{ id: 1 }, { id: 2 }] },`
+
+- To create and select tags, combine 1. and 2. `tags: { set: [{ id: 1 }, { id: 2 }], create: { name: 'new' } }`
+
 ## Tips
 
 1. `dotenv` doesn't tell typescript anything. So, provide a default:

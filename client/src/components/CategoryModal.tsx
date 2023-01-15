@@ -23,7 +23,6 @@ const CategoryModal = () => {
 	const toggle = () => {
 		setState((pre) => ({ ...pre, modal: !pre.modal }))
 	}
-	console.log(mutation)
 
 	return (
 		<>

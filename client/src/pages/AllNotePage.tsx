@@ -1,25 +1,14 @@
 import { Row, Col, Button, Stack, Container, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import NoteList from '../components/NoteList'
 import TagsSelect from '../components/TagsSelect'
 
-const NotePage = () => {
+const AllNotePage = () => {
 	return (
 		<>
 			<Container className="my-4 h-100">
 				<Row className="align-items-center mb-2">
 					<Col>
 						<h1>Notes</h1>
-					</Col>
-					<Col xs="auto">
-						<Stack gap={2} direction="horizontal">
-							<Link to="/new">
-								<Button variant="primary">Create</Button>
-							</Link>
-							<Link to="/">
-								<Button variant="outline-secondary">Edit Tags</Button>
-							</Link>
-						</Stack>
 					</Col>
 				</Row>
 				<Form className="mb-4">
@@ -43,4 +32,4 @@ const NotePage = () => {
 		</>
 	)
 }
-export default NotePage
+export default AllNotePage

@@ -13,15 +13,16 @@ import HomePage from './pages/HomePage'
 import NotePage from './pages/NotePage'
 import Note from './components/Note'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import AllNotePage from './pages/AllNotePage'
 
 function App() {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<Route path="/" element={<HomePage />}>
-				<Route index element={<NotePage />} />
+				<Route index element={<AllNotePage />} />
 				<Route path="/new" element={<NewNotePage />} />
 				<Route path="/:categoryId">
-					<Route index element={<h1>Show Category Notes</h1>} />
+					<Route index element={<NotePage />} />
 				</Route>
 				<Route path="/note/:noteId">
 					<Route index element={<Note />} />

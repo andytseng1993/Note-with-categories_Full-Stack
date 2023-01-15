@@ -37,6 +37,23 @@ router.post('/', async (req, res) => {
     res.status(201).json(tag)
 })
 
+//@route PUT api/tags
+//@desc Add a tag to Note
+//@access Public
+router.put('/:tagId', async (req, res) => {
+    const { tagId } = req.params
+    const { noteId } = req.body
+    const tag = await prisma.tag.update({
+        where: {
+            id: tagId
+        },
+        data: {
+            noteId
+        }
+    })
+    res.status(201).json(tag)
+})
+
 //@route DELETE api/tags
 //@desc return a tag
 //@access Public

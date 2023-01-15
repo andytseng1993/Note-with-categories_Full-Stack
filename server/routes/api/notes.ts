@@ -8,7 +8,22 @@ const router = express.Router()
 //@desc return All notes
 //@access Public
 router.get('/', async (req, res) => {
-    const notes = await prisma.note.findMany()
+    const notes = await prisma.note.findMany({
+        orderBy: {
+            createdAt: 'desc'
+        },
+        select: {
+            id: true,
+            title: true,
+            createdAt: true,
+            tags: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    })
     return res.json(notes)
 })
 
@@ -60,7 +75,7 @@ router.post('/:categoryId', async (req, res) => {
 //@access Public
 router.put('/:categoryId/:noteId', async (req, res) => {
     const { categoryId, noteId } = req.params
-    const { title, body, authorId, tagId } = req.body
+    const { title, body, authorId, setTagsIdArray } = req.body
     try {
         const note = await prisma.note.update({
             where: {
@@ -70,7 +85,7 @@ router.put('/:categoryId/:noteId', async (req, res) => {
                 title,
                 body,
                 authorId,
-                tagId,
+                tags: { set: setTagsIdArray },
                 categoryId
             }
         })

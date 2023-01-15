@@ -39,6 +39,16 @@ const CategoryList = () => {
 						<CategoryModal />
 					</Nav.Item>
 					<hr className="mt-3" />
+					<Nav.Item as="li">
+						<Link
+							to={`/`}
+							className={`text-reset text-decoration-none nav-link my-1 ${
+								!params.categoryId ? 'active' : ''
+							}`}
+						>
+							All Notes
+						</Link>
+					</Nav.Item>
 					{data.map((category) => (
 						<Nav.Item key={category.id} as="li">
 							<Link
