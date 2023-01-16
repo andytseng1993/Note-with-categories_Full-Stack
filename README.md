@@ -61,7 +61,7 @@ Then create a record in main()
 - notes
 
   - api/notes -- GET,
-    - POST -- title, body, authorId, tagId? ,categoryId?
+    - POST -- title, body, authorId, tagIdArray? ,categoryId?
   - api/notes/:categoryId/:noteId -- PUT --title, body, authorId, setTagsIdArray?
   - api/notes/:noteId -- DELETE
 
@@ -108,3 +108,24 @@ Install `npm i react-bootstrap bootstrap react-router-dom`, and setup concurrent
 
 Type:
 `children: PropsWithChildren`
+
+## [React-select-creatable](https://react-select.com/creatable)
+
+```
+  mutationFn: (newTag: object): Promise<AxiosResponse> => {
+			return axios.post('/api/tags', newTag)
+  },
+  onSuccess: ({ data }) => {
+    queryClient.invalidateQueries({ queryKey: ['tags'] })
+    setSelectTags((prev) => [...prev, ...[data]])
+    console.log(data)
+  }
+```
+
+1. onSuccess: (data: TData) , data is return from axios, so data is contain status, data, config, etc..., we use destructure`{data}` to get data.
+2. If without **Promise<AxiosResponse>**,{data} in onSuccess fn will get warning.
+3. In `[...prev, ...[data]]`:
+
+- Try to use the spread syntax (...) to unpack an object in an array,
+  **wrap it in an array** before using the spread syntax (...) in TypeScript.
+- [Symbol.iterator method](https://bobbyhadz.com/blog/typescript-type-object-must-have-symbol-iterator-method)

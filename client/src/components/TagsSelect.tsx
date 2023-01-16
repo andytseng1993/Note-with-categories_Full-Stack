@@ -28,9 +28,6 @@ const TagsSelect = () => {
 			setValue((prev) => [...prev, newOption])
 		}, 1000)
 	}
-	const onChange = (option: readonly Option[]) => {
-		console.log(option)
-	}
 	return (
 		<CreatableSelect
 			isMulti

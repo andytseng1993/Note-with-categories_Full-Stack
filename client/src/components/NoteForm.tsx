@@ -10,7 +10,7 @@ const NoteForm = () => {
 					<Col>
 						<Form.Group controlId="title">
 							<Form.Label>Title</Form.Label>
-							<Form.Control type="text"></Form.Control>
+							<Form.Control type="text" required></Form.Control>
 						</Form.Group>
 					</Col>
 					<Col>
@@ -22,7 +22,7 @@ const NoteForm = () => {
 				</Row>
 				<Form.Group>
 					<Form.Label>Body</Form.Label>
-					<Form.Control required as="textarea" rows={18}></Form.Control>
+					<Form.Control required as="textarea" rows={15}></Form.Control>
 				</Form.Group>
 				<Stack direction="horizontal" gap={4} className="justify-content-end">
 					<Link to="..">

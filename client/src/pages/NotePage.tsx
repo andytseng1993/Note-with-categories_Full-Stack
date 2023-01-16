@@ -13,7 +13,7 @@ const NotePage = () => {
 					</Col>
 					<Col xs="auto">
 						<Stack gap={2} direction="horizontal">
-							<Link to="/new">
+							<Link to="new">
 								<Button variant="primary">Create</Button>
 							</Link>
 							<Link to="/">

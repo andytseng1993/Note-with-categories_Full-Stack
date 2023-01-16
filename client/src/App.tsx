@@ -20,9 +20,9 @@ function App() {
 		createRoutesFromElements(
 			<Route path="/" element={<HomePage />}>
 				<Route index element={<AllNotePage />} />
-				<Route path="/new" element={<NewNotePage />} />
 				<Route path="/:categoryId">
 					<Route index element={<NotePage />} />
+					<Route path="new" element={<NewNotePage />} />
 				</Route>
 				<Route path="/note/:noteId">
 					<Route index element={<Note />} />

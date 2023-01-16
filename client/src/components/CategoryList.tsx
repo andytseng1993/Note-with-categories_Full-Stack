@@ -19,7 +19,7 @@ const CategoryList = () => {
 	const { isLoading, data, isError } = useQuery({
 		queryKey: ['categories'],
 		queryFn: async () => {
-			const { data } = await axios.get<CategoryData[]>('api/categories')
+			const { data } = await axios.get<CategoryData[]>('/api/categories')
 			return data
 		},
 	})
