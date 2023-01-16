@@ -11,7 +11,7 @@ const HomePage = () => {
 	return (
 		<Container fluid={true} className="d-flex flex-row flex-grow-1">
 			<Row className="d-flex flex-grow-1">
-				<Col xs={3} lg={3} xxl={2} className="bg-light d-flex flex-column p-3">
+				<Col xs={4} lg={3} xxl={2} className="bg-light d-flex flex-column p-3">
 					<Nav as="ul" className="nav flex-column mb-auto nav-pills">
 						<CategoryList />
 					</Nav>

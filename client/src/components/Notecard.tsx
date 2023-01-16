@@ -1,6 +1,6 @@
 import { Badge, Card, Stack } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Note } from './NoteList'
+import { Note } from './AllNoteList'
 
 const Notecard = ({ id, title, createdAt, tags }: Note) => {
 	return (
@@ -14,7 +14,7 @@ const Notecard = ({ id, title, createdAt, tags }: Note) => {
 					gap={2}
 					className="align-items-center justify-content-center h-100"
 				>
-					<span className="d-flex justify-content-center align-items-center my-2 fs-3 w-75">
+					<span className="d-flex flex-wrap justify-content-center align-items-center my-2 fs-3 w-75 text-break">
 						{title}
 					</span>
 					<Stack

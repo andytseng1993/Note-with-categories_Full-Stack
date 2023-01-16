@@ -1,6 +1,6 @@
 import { Row, Col, Button, Stack, Container, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import NoteList from '../components/NoteList'
+import CategoryNotList from '../components/CategoryNotList'
 import TagsSelect from '../components/TagsSelect'
 
 const NotePage = () => {
@@ -38,7 +38,7 @@ const NotePage = () => {
 						</Col>
 					</Row>
 				</Form>
-				<NoteList />
+				<CategoryNotList />
 			</Container>
 		</>
 	)

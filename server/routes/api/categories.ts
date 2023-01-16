@@ -19,6 +19,43 @@ router.get('/', async (req, res) => {
     return res.json(category)
 })
 
+//@route GET api/categories/:id
+//@desc All notes in one category
+//@access Public
+router.get('/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const category = await prisma.category.findUnique({
+            where: {
+                id
+            },
+            select: {
+                notes: {
+                    select: {
+                        id: true,
+                        title: true,
+                        body: true,
+                        createdAt: true,
+                        updateAt: true,
+                        tags: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    },
+                    orderBy: {
+                        updateAt: 'desc'
+                    }
+                }
+            }
+        })
+        return res.json(category)
+    } catch (error) {
+        return res.status(404).json('Cannot find the category')
+    }
+})
+
 //@route POST api/categories
 //desc return A category
 //@access Public

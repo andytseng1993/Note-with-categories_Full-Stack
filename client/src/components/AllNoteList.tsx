@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Col, Row } from 'react-bootstrap'
 import Notecard from './Notecard'
+import NoteLoading from './NoteLoading'
 
 export interface Note {
 	id: string
@@ -14,7 +15,7 @@ interface Tag {
 	name: string
 }
 
-const NoteList = () => {
+const AllNoteList = () => {
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ['notes'],
 		queryFn: async () => {
@@ -28,7 +29,10 @@ const NoteList = () => {
 		<>
 			<Row xs={1} sm={2} lg={3} xl={4} className="g-3">
 				{isLoading ? (
-					<h1>Loading...</h1>
+					<>
+						<NoteLoading />
+						<NoteLoading />
+					</>
 				) : isError ? (
 					<h3>Something Wrong...</h3>
 				) : (
@@ -48,4 +52,4 @@ const NoteList = () => {
 	)
 }
 
-export default NoteList
+export default AllNoteList

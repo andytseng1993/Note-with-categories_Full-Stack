@@ -1,6 +1,6 @@
 import { useQueries, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { Button, Nav } from 'react-bootstrap'
+import { Button, Nav, Placeholder } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import CategoryModal from './CategoryModal'
 
@@ -26,29 +26,39 @@ const CategoryList = () => {
 
 	return (
 		<>
+			<Nav.Item as="li" className="d-flex flex-column justify-content-center">
+				<CategoryModal />
+			</Nav.Item>
+			<hr className="mt-3" />
+			<Nav.Item as="li">
+				<Link
+					to={`/`}
+					className={`text-reset text-decoration-none nav-link my-1 ${
+						!params.categoryId ? 'active' : ''
+					}`}
+				>
+					All Notes
+				</Link>
+			</Nav.Item>
 			{isLoading ? (
-				<h1>Loading</h1>
+				<>
+					<Placeholder animation="glow" style={{ marginBottom: '10px' }}>
+						<Placeholder
+							xs={10}
+							style={{ height: '32px', borderRadius: '5px' }}
+						/>
+					</Placeholder>
+					<Placeholder animation="glow" style={{ marginBottom: '10px' }}>
+						<Placeholder
+							xs={7}
+							style={{ height: '32px', borderRadius: '5px' }}
+						/>
+					</Placeholder>
+				</>
 			) : isError ? (
 				<h3>Sometihing was wrong...</h3>
 			) : (
 				<>
-					<Nav.Item
-						as="li"
-						className="d-flex flex-column justify-content-center"
-					>
-						<CategoryModal />
-					</Nav.Item>
-					<hr className="mt-3" />
-					<Nav.Item as="li">
-						<Link
-							to={`/`}
-							className={`text-reset text-decoration-none nav-link my-1 ${
-								!params.categoryId ? 'active' : ''
-							}`}
-						>
-							All Notes
-						</Link>
-					</Nav.Item>
 					{data.map((category) => (
 						<Nav.Item key={category.id} as="li">
 							<Link

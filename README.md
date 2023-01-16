@@ -56,14 +56,14 @@ Then create a record in main()
 - categories
 
   - api/categories -- GET, POST
-  - api/categories/:id -- PUT, DELETE
+  - api/categories/:id -- GET, PUT, DELETE
 
 - notes
 
-  - api/notes -- GET
+  - api/notes -- GET,
+    - POST -- title, body, authorId, tagId? ,categoryId?
+  - api/notes/:categoryId/:noteId -- PUT --title, body, authorId, setTagsIdArray?
   - api/notes/:noteId -- DELETE
-  - api/notes/:categoryId -- GET, POST
-  - api/notes/:categoryId/:noteId -- PUT
 
 - tags
 

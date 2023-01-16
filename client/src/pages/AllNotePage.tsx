@@ -1,5 +1,5 @@
 import { Row, Col, Button, Stack, Container, Form } from 'react-bootstrap'
-import NoteList from '../components/NoteList'
+import AllNoteList from '../components/AllNoteList'
 import TagsSelect from '../components/TagsSelect'
 
 const AllNotePage = () => {
@@ -27,7 +27,7 @@ const AllNotePage = () => {
 						</Col>
 					</Row>
 				</Form>
-				<NoteList />
+				<AllNoteList />
 			</Container>
 		</>
 	)

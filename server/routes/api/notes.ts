@@ -27,46 +27,29 @@ router.get('/', async (req, res) => {
     return res.json(notes)
 })
 
-//@route GET api/notes/:categoryId
-//@desc return All notes in category and author name
+//@route POST api/notes/
+//@desc return new note
 //@access Public
-router.get('/:categoryId', async (req, res) => {
-    const { categoryId } = req.params
-    const notes = await prisma.note.findMany({
-        where: {
-            id: categoryId
-        },
-        select: {
-            title: true,
-            body: true,
-            updateAt: true,
-            createdAt: true,
-            author: {
-                select: {
-                    userName: true
-                }
+router.post('/', async (req, res) => {
+    const { title, body, authorId, tagId, categoryId } = req.body
+    try {
+        await prisma.note.create({
+            data: {
+                title,
+                body,
+                authorId,
+                tags: {
+                    connect: {
+                        id: tagId
+                    }
+                },
+                categories: categoryId
             }
-        }
-    })
-    return res.json(notes)
-})
-
-//@route POST api/notes:categoryId
-//desc return A new note
-//@access Public
-router.post('/:categoryId', async (req, res) => {
-    const { categoryId } = req.params
-    const { title, body, authorId, tagId } = req.body
-    const note = await prisma.note.create({
-        data: {
-            title,
-            body,
-            authorId,
-            tagId,
-            categoryId
-        }
-    })
-    return res.status(201).json(note)
+        })
+        return res.status(201)
+    } catch (error) {
+        res.status(404).json({ success: false })
+    }
 })
 
 
@@ -95,7 +78,8 @@ router.put('/:categoryId/:noteId', async (req, res) => {
     }
 })
 
-//@route DELETE api/notes/:categoryId/:noteId
+
+//@route DELETE api/notes/:noteId
 //@desc return a note in category
 //@access Public
 router.delete('/:noteId', async (req, res) => {
