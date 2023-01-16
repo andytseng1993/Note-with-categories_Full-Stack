@@ -40,7 +40,7 @@ router.get('/:id', async (req, res) => {
                         tags: {
                             select: {
                                 id: true,
-                                name: true
+                                label: true
                             }
                         }
                     },

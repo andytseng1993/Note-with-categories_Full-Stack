@@ -1,25 +1,24 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { Card, Col, Placeholder, Row, Spinner } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
-import { Note } from './AllNoteList'
 import Notecard from './Notecard'
 import NoteLoading from './NoteLoading'
 
-interface NoteData {
+export interface NoteData {
 	id: string
 	title: string
 	body: string
 	createdAt: string
 	updateAt: string
-	tags: Tags[]
+	tags: Tag[]
 }
-interface Notes {
+export interface Notes {
 	notes: NoteData[]
 }
-interface Tags {
+export interface Tag {
 	id: string
-	name: string
+	label: string
 }
 
 const CategoryNotList = () => {

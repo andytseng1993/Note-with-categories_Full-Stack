@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
             tags: {
                 select: {
                     id: true,
-                    name: true
+                    label: true
                 }
             }
         }
@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
 //@desc return new note
 //@access Public
 router.post('/', async (req, res) => {
-    const { title, body, authorId, tagId, categoryId } = req.body
+    const { title, body, authorId, tagIdArray, categoryId } = req.body
     try {
         await prisma.note.create({
             data: {
@@ -39,9 +39,7 @@ router.post('/', async (req, res) => {
                 body,
                 authorId,
                 tags: {
-                    connect: {
-                        id: tagId
-                    }
+                    connect: tagIdArray
                 },
                 categories: categoryId
             }

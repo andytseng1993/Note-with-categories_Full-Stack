@@ -11,13 +11,8 @@ const prisma = new PrismaClient()
 router.get('/', async (req, res) => {
     const tags = await prisma.tag.findMany({
         select: {
-            name: true,
-            notes: {
-                select: {
-                    id: true,
-                    title: true
-                }
-            }
+            id: true,
+            label: true
         }
     })
     return res.json(tags)
@@ -27,11 +22,10 @@ router.get('/', async (req, res) => {
 //@desc return a tag
 //@access Public
 router.post('/', async (req, res) => {
-    const { name, noteId } = req.body
+    const { label } = req.body
     const tag = await prisma.tag.create({
         data: {
-            name,
-            noteId
+            label
         }
     })
     res.status(201).json(tag)
@@ -42,13 +36,13 @@ router.post('/', async (req, res) => {
 //@access Public
 router.put('/:tagId', async (req, res) => {
     const { tagId } = req.params
-    const { noteId } = req.body
+    const { label } = req.body
     const tag = await prisma.tag.update({
         where: {
             id: tagId
         },
         data: {
-            noteId
+            label
         }
     })
     res.status(201).json(tag)

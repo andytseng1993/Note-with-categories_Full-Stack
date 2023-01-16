@@ -1,29 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Col, Row } from 'react-bootstrap'
+import { NoteData } from './CategoryNotList'
 import Notecard from './Notecard'
 import NoteLoading from './NoteLoading'
-
-export interface Note {
-	id: string
-	title: string
-	createdAt: string
-	tags: Tag[]
-}
-interface Tag {
-	id: string
-	name: string
-}
 
 const AllNoteList = () => {
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ['notes'],
 		queryFn: async () => {
-			const { data } = await axios.get<Note[]>('api/notes')
+			const { data } = await axios.get<NoteData[]>('api/notes')
 			return data
 		},
 	})
-	console.log(data)
 
 	return (
 		<>
