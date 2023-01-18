@@ -1,8 +1,8 @@
 import { Badge, Card, Stack } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { Note } from './AllNoteList'
+import { NoteData, Tag } from './CategoryNoteList'
 
-const Notecard = ({ id, title, createdAt, tags }: Note) => {
+const Notecard = ({ id, title, createdAt, tags }: NoteData) => {
 	return (
 		<Card
 			as={Link}
@@ -23,9 +23,9 @@ const Notecard = ({ id, title, createdAt, tags }: Note) => {
 						className="justify-content-center align-items-center flex-wrap"
 					>
 						{tags.length > 0
-							? tags.map((tag) => (
+							? tags.map((tag: Tag) => (
 									<Badge key={tag.id} className="text-truncate fs-7">
-										{tag.name}
+										{tag.label}
 									</Badge>
 							  ))
 							: null}

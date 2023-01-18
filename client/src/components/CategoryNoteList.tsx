@@ -21,7 +21,7 @@ export interface Tag {
 	label: string
 }
 
-const CategoryNotList = () => {
+const CategoryNoteList = () => {
 	const { categoryId } = useParams()
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ['notes', { categoryId }],
@@ -30,7 +30,6 @@ const CategoryNotList = () => {
 			return data.notes
 		},
 	})
-	console.log(data)
 
 	return (
 		<>
@@ -61,4 +60,4 @@ const CategoryNotList = () => {
 	)
 }
 
-export default CategoryNotList
+export default CategoryNoteList

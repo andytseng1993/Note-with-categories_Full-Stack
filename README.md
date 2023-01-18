@@ -126,6 +126,12 @@ Type:
 2. If without **Promise<AxiosResponse>**,{data} in onSuccess fn will get warning.
 3. In `[...prev, ...[data]]`:
 
+## Spread syntax in TypeScript
+
 - Try to use the spread syntax (...) to unpack an object in an array,
   **wrap it in an array** before using the spread syntax (...) in TypeScript.
 - [Symbol.iterator method](https://bobbyhadz.com/blog/typescript-type-object-must-have-symbol-iterator-method)
+
+* useRef<HTMLInputElement>(null) -- Input ref
+* useRef<HTMLTextAreaElement>(null) -- TextArea input
+* setSelectTags: Dispatch<SetStateAction<Type>>

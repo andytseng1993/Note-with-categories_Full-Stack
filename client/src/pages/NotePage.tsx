@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { Row, Col, Button, Stack, Container, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import CategoryNotList from '../components/CategoryNotList'
+import CategoryNoteList, { Tag } from '../components/CategoryNoteList'
 import TagsSelect from '../components/TagsSelect'
 
 const NotePage = () => {
+	const [selectTags, setSelectTags] = useState<Tag[]>([])
 	return (
 		<>
 			<Container className="my-4 h-100">
@@ -33,12 +35,15 @@ const NotePage = () => {
 						<Col>
 							<Form.Group controlId="tags">
 								<Form.Label>Tags</Form.Label>
-								<TagsSelect />
+								<TagsSelect
+									selectTags={selectTags}
+									setSelectTags={setSelectTags}
+								/>
 							</Form.Group>
 						</Col>
 					</Row>
 				</Form>
-				<CategoryNotList />
+				<CategoryNoteList />
 			</Container>
 		</>
 	)

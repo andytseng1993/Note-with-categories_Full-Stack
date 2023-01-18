@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Col, Row } from 'react-bootstrap'
-import { NoteData } from './CategoryNotList'
+import { NoteData } from './CategoryNoteList'
 import Notecard from './Notecard'
 import NoteLoading from './NoteLoading'
 
