@@ -6,7 +6,7 @@ const Notecard = ({ id, title, createdAt, tags }: NoteData) => {
 	return (
 		<Card
 			as={Link}
-			to={`/note/${id}`}
+			to={`note/${id}`}
 			className={'text-reset text-decoration-none h-100'}
 		>
 			<Card.Body>

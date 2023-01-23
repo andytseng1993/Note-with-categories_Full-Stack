@@ -47,7 +47,7 @@ const TagsSelect = ({ selectTags = [], setSelectTags }: Props) => {
 	return (
 		<CreatableSelect
 			isMulti
-			placeholder="Select Tags or Create Tags"
+			placeholder="Select Tags or Type Tag"
 			isClearable
 			isDisabled={mutation.isLoading}
 			isLoading={mutation.isLoading}

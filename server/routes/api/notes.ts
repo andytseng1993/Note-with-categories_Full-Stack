@@ -21,7 +21,13 @@ router.get('/', async (req, res) => {
                     id: true,
                     label: true
                 }
+            },
+            categories: {
+                select: {
+                    id: true
+                }
             }
+
         }
     })
     return res.json(notes)
@@ -30,21 +36,31 @@ router.get('/', async (req, res) => {
 //@route POST api/notes/
 //@desc return new note
 //@access Public
+interface PropsType {
+    title: string
+    body: string
+    authorName: string
+    categoryId: string
+    tagIdArray: [TagId]
+}
+interface TagId {
+    id: string
+}
 router.post('/', async (req, res) => {
-    const { title, body, authorId, tagIdArray, categoryId } = req.body
+    const { title, body, authorName, tagIdArray, categoryId }: PropsType = req.body
     try {
         await prisma.note.create({
             data: {
                 title,
                 body,
-                authorId,
+                authorName,
                 tags: {
                     connect: tagIdArray
                 },
-                categories: categoryId
+                categoryId: categoryId
             }
         })
-        return res.status(201)
+        return res.status(201).json({ success: true })
     } catch (error) {
         res.status(404).json({ success: false })
     }
@@ -56,7 +72,7 @@ router.post('/', async (req, res) => {
 //@access Public
 router.put('/:categoryId/:noteId', async (req, res) => {
     const { categoryId, noteId } = req.params
-    const { title, body, authorId, setTagsIdArray } = req.body
+    const { title, body, authorName, setTagsIdArray } = req.body
     try {
         const note = await prisma.note.update({
             where: {
@@ -65,7 +81,7 @@ router.put('/:categoryId/:noteId', async (req, res) => {
             data: {
                 title,
                 body,
-                authorId,
+                authorName,
                 tags: { set: setTagsIdArray },
                 categoryId
             }

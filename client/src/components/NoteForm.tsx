@@ -1,23 +1,53 @@
+import {
+	useMutation,
+	UseMutationOptions,
+	UseMutationResult,
+} from '@tanstack/react-query'
+import axios, { AxiosResponse } from 'axios'
 import { FormEvent, useRef, useState } from 'react'
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { newNoteType } from '../pages/NewNotePage'
 import { Tag } from './CategoryNoteList'
 import TagsSelect from './TagsSelect'
 
 interface NoteFormProps {
+	mutation: UseMutationResult<
+		AxiosResponse<any, any>,
+		unknown,
+		newNoteType,
+		unknown
+	>
 	title?: string
 	markdown?: string
 	tags?: Tag[]
 }
 
-const NoteForm = ({ title = '', markdown = '', tags = [] }: NoteFormProps) => {
+const NoteForm = ({
+	mutation,
+	title = '',
+	markdown = '',
+	tags = [],
+}: NoteFormProps) => {
+	const { categoryId } = useParams()
 	const [selectTags, setSelectTags] = useState<Tag[]>(tags)
 	const titleRef = useRef<HTMLInputElement>(null)
 	const markdownRef = useRef<HTMLTextAreaElement>(null)
+
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault()
-		console.log(titleRef.current?.value)
-		console.log(markdownRef.current?.value)
+
+		const tagIdArray = selectTags.map((tag) => {
+			return { id: tag.id }
+		})
+		const NewNoteData = {
+			title: titleRef.current!.value,
+			body: markdownRef.current!.value,
+			authorName: 'Andy',
+			tagIdArray: tagIdArray,
+			categoryId: categoryId!,
+		}
+		mutation.mutate(NewNoteData)
 	}
 
 	return (

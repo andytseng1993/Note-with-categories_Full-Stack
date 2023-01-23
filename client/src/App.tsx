@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.css'
 import {
 	createBrowserRouter,
 	createRoutesFromElements,
@@ -23,10 +23,10 @@ function App() {
 				<Route path="/:categoryId">
 					<Route index element={<NotePage />} />
 					<Route path="new" element={<NewNotePage />} />
-				</Route>
-				<Route path="/note/:noteId">
-					<Route index element={<Note />} />
-					<Route path="edit" element={<h1>Edit</h1>} />
+					<Route path="note/:noteId">
+						<Route index element={<Note />} />
+						<Route path="edit" element={<h1>Edit</h1>} />
+					</Route>
 				</Route>
 				<Route path="*" element={<Navigate to="/" />}></Route>
 			</Route>
@@ -36,9 +36,7 @@ function App() {
 	return (
 		<>
 			<QueryClientProvider client={queryClient}>
-				<AppNavbar>
-					<RouterProvider router={router} />
-				</AppNavbar>
+				<RouterProvider router={router} />
 			</QueryClientProvider>
 		</>
 	)
