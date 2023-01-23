@@ -135,3 +135,8 @@ Type:
 * useRef<HTMLInputElement>(null) -- Input ref
 * useRef<HTMLTextAreaElement>(null) -- TextArea input
 * setSelectTags: Dispatch<SetStateAction<Type>>
+
+## Time
+
+`const dateFormatter = new Intl.DateTimeFormat(undefined,{dateStyle:'medium'}) `
+` dateFormatter.format(Date.parse(data.updateAt))`

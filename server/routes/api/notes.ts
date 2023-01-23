@@ -62,7 +62,8 @@ router.get('/:noteId', async (req, res) => {
                         id: true,
                         name: true
                     }
-                }
+                },
+                updateAt: true
             }
         })
         return res.status(200).json(notes)
@@ -126,7 +127,7 @@ router.put('/:noteId', async (req, res) => {
         })
         return res.json(note)
     } catch (error) {
-        throw res.status(400).json({ error })
+        return res.status(400).json({ error })
     }
 })
 
@@ -142,9 +143,9 @@ router.delete('/:noteId', async (req, res) => {
                 id: noteId
             }
         })
-        return res.status(204)
+        return res.status(204).json({ success: true })
     } catch (error) {
-        res.status(404).json({ success: false })
+        return res.status(404).json({ success: false })
     }
 })
 
