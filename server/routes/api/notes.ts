@@ -30,7 +30,45 @@ router.get('/', async (req, res) => {
 
         }
     })
-    return res.json(notes)
+    return res.status(200).json(notes)
+})
+
+//@route GET api/notes/:noteId
+//@desc return unique note
+//@access Public
+router.get('/:noteId', async (req, res) => {
+    const { noteId } = req.params
+    try {
+        const notes = await prisma.note.findUnique({
+            where: {
+                id: noteId
+            },
+            select: {
+                title: true,
+                body: true,
+                author: {
+                    select: {
+                        userName: true
+                    }
+                },
+                tags: {
+                    select: {
+                        id: true,
+                        label: true
+                    }
+                },
+                categories: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            }
+        })
+        return res.status(200).json(notes)
+    } catch (error) {
+        return res.status(400).json({ error })
+    }
 })
 
 //@route POST api/notes/
@@ -67,12 +105,12 @@ router.post('/', async (req, res) => {
 })
 
 
-//@route PUT api/notes/:categoryId/:noteId
+//@route PUT api/notes/:noteId
 //@desc return a note in category
 //@access Public
-router.put('/:categoryId/:noteId', async (req, res) => {
-    const { categoryId, noteId } = req.params
-    const { title, body, authorName, setTagsIdArray } = req.body
+router.put('/:noteId', async (req, res) => {
+    const { noteId } = req.params
+    const { title, body, authorName, tagIdArray, categoryId } = req.body
     try {
         const note = await prisma.note.update({
             where: {
@@ -82,7 +120,7 @@ router.put('/:categoryId/:noteId', async (req, res) => {
                 title,
                 body,
                 authorName,
-                tags: { set: setTagsIdArray },
+                tags: { set: tagIdArray },
                 categoryId
             }
         })

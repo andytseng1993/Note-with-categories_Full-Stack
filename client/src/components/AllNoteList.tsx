@@ -1,10 +1,20 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Col, Row } from 'react-bootstrap'
-import { NoteData } from './CategoryNoteList'
+import { Tag } from './CategoryNoteList'
 import Notecard from './Notecard'
 import NoteLoading from './NoteLoading'
 
+export interface NoteData {
+	id: string
+	title: string
+	body: string
+	createdAt: string
+	tags: Tag[]
+	categories: {
+		id: string
+	}
+}
 const AllNoteList = () => {
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ['notes'],
@@ -29,7 +39,7 @@ const AllNoteList = () => {
 						<Col key={note.id}>
 							<Notecard
 								id={note.id}
-								createdAt={note.createdAt}
+								category={note.categories}
 								title={note.title}
 								tags={note.tags}
 							/>

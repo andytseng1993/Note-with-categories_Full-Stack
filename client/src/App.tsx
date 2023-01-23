@@ -14,6 +14,7 @@ import NotePage from './pages/NotePage'
 import Note from './components/Note'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import AllNotePage from './pages/AllNotePage'
+import EditPage from './pages/EditPage'
 
 function App() {
 	const router = createBrowserRouter(
@@ -25,7 +26,7 @@ function App() {
 					<Route path="new" element={<NewNotePage />} />
 					<Route path="note/:noteId">
 						<Route index element={<Note />} />
-						<Route path="edit" element={<h1>Edit</h1>} />
+						<Route path="edit" element={<EditPage />} />
 					</Route>
 				</Route>
 				<Route path="*" element={<Navigate to="/" />}></Route>

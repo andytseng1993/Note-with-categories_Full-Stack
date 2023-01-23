@@ -24,7 +24,7 @@ const HomePage = () => {
 						</Nav>
 					</Col>
 					<Col className="d-flex flex-column align-items-stretch px-0 overflow-y-auto h-100">
-						<Container style={{ maxWidth: '1100px' }}>
+						<Container style={{ maxWidth: '1100px', marginTop: '20px' }}>
 							<Outlet />
 						</Container>
 					</Col>

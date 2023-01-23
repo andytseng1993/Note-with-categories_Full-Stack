@@ -4,12 +4,11 @@ import { Container } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import NoteForm from '../components/NoteForm'
 
-export interface newNoteType {
+interface NoteUpdateType {
 	title: string
 	body: string
 	authorName: string
 	tagIdArray: TagId[]
-	categoryId: string
 }
 interface TagId {
 	id: string
@@ -17,7 +16,7 @@ interface TagId {
 const NewNotePage = () => {
 	const navigate = useNavigate()
 	const mutation = useMutation({
-		mutationFn: (newNote: newNoteType): Promise<AxiosResponse> => {
+		mutationFn: (newNote: NoteUpdateType): Promise<AxiosResponse> => {
 			return axios.post('/api/notes', newNote)
 		},
 		onSuccess: () => {

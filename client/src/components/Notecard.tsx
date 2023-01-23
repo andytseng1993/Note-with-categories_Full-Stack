@@ -1,12 +1,20 @@
 import { Badge, Card, Stack } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { NoteData, Tag } from './CategoryNoteList'
+import { Tag } from './CategoryNoteList'
 
-const Notecard = ({ id, title, createdAt, tags }: NoteData) => {
+interface NotecardProps {
+	id: string
+	title: string
+	category: {
+		id: string
+	}
+	tags: Tag[]
+}
+const Notecard = ({ id, title, category, tags }: NotecardProps) => {
 	return (
 		<Card
 			as={Link}
-			to={`note/${id}`}
+			to={`/${category.id}/note/${id}`}
 			className={'text-reset text-decoration-none h-100'}
 		>
 			<Card.Body>

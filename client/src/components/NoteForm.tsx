@@ -7,15 +7,25 @@ import axios, { AxiosResponse } from 'axios'
 import { FormEvent, useRef, useState } from 'react'
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
-import { newNoteType } from '../pages/NewNotePage'
 import { Tag } from './CategoryNoteList'
 import TagsSelect from './TagsSelect'
+
+export interface NoteMutateType {
+	title: string
+	body: string
+	authorName: string
+	tagIdArray: TagId[]
+	categoryId: string
+}
+interface TagId {
+	id: string
+}
 
 interface NoteFormProps {
 	mutation: UseMutationResult<
 		AxiosResponse<any, any>,
 		unknown,
-		newNoteType,
+		NoteMutateType,
 		unknown
 	>
 	title?: string

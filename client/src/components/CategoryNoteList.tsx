@@ -45,8 +45,8 @@ const CategoryNoteList = () => {
 					{data.map((note) => (
 						<Col key={note.id}>
 							<Notecard
+								category={{ id: categoryId! }}
 								id={note.id}
-								createdAt={note.createdAt}
 								title={note.title}
 								tags={note.tags}
 							/>

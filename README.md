@@ -62,8 +62,8 @@ Then create a record in main()
 
   - api/notes -- GET,
     - POST -- title, body, authorId, tagIdArray? ,categoryId?
-  - api/notes/:categoryId/:noteId -- PUT --title, body, authorId, setTagsIdArray?
-  - api/notes/:noteId -- DELETE
+  - api/notes/:noteId -- PUT --title, body, authorId, tagIdArray
+  - api/notes/:noteId -- GET,DELETE
 
 - tags
 
