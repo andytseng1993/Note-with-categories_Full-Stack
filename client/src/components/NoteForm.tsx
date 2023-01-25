@@ -8,7 +8,7 @@ import { FormEvent, useRef, useState } from 'react'
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { Tag } from './CategoryNoteList'
-import TagsSelect from './TagsSelect'
+import TagsCreatableSelect from './TagsCreatableSelect'
 
 export interface NoteMutateType {
 	title: string
@@ -22,12 +22,7 @@ interface TagId {
 }
 
 interface NoteFormProps {
-	mutation: UseMutationResult<
-		AxiosResponse<any, any>,
-		unknown,
-		NoteMutateType,
-		unknown
-	>
+	mutation: UseMutationResult<AxiosResponse<any, any>, unknown, any, unknown>
 	title?: string
 	markdown?: string
 	tags?: Tag[]
@@ -78,7 +73,7 @@ const NoteForm = ({
 					<Col>
 						<Form.Group controlId="tags">
 							<Form.Label>Tags</Form.Label>
-							<TagsSelect
+							<TagsCreatableSelect
 								selectTags={selectTags}
 								setSelectTags={setSelectTags}
 							/>

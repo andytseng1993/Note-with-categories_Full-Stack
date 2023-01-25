@@ -6,6 +6,7 @@ import TagsSelect from '../components/TagsSelect'
 
 const AllNotePage = () => {
 	const [selectTags, setSelectTags] = useState<Tag[]>([])
+	const [titleFilter, setTitleFilter] = useState('')
 	return (
 		<>
 			<Container className="my-4 h-100">
@@ -19,7 +20,11 @@ const AllNotePage = () => {
 						<Col>
 							<Form.Group controlId="title">
 								<Form.Label>Title</Form.Label>
-								<Form.Control type="text"></Form.Control>
+								<Form.Control
+									type="text"
+									value={titleFilter}
+									onChange={(e) => setTitleFilter(e.target.value)}
+								></Form.Control>
 							</Form.Group>
 						</Col>
 						<Col>
@@ -33,7 +38,7 @@ const AllNotePage = () => {
 						</Col>
 					</Row>
 				</Form>
-				<AllNoteList />
+				<AllNoteList selectTags={selectTags} titleFilter={titleFilter} />
 			</Container>
 		</>
 	)

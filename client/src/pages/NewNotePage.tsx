@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios, { AxiosResponse } from 'axios'
 import { Container } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
@@ -14,12 +14,14 @@ interface TagId {
 	id: string
 }
 const NewNotePage = () => {
+	const queryClient = useQueryClient()
 	const navigate = useNavigate()
 	const mutation = useMutation({
 		mutationFn: (newNote: NoteUpdateType): Promise<AxiosResponse> => {
 			return axios.post('/api/notes', newNote)
 		},
 		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['notes'] })
 			navigate('..')
 		},
 	})

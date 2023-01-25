@@ -1,8 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import axios, { AxiosResponse } from 'axios'
 import { Dispatch, SetStateAction, useState } from 'react'
-import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
 import { Tag } from './CategoryNoteList'
+
 interface Option {
 	readonly label: string
 	readonly value: string
@@ -12,7 +13,8 @@ interface Props {
 	setSelectTags: Dispatch<SetStateAction<Tag[]>>
 }
 
-const TagsSelect = ({ selectTags = [], setSelectTags }: Props) => {
+const TagsCreatableSelect = ({ selectTags = [], setSelectTags }: Props) => {
+	const queryClient = useQueryClient()
 	const [options, setOptions] = useState<Option[]>([])
 	const { data } = useQuery({
 		queryKey: ['tags'],
@@ -28,11 +30,27 @@ const TagsSelect = ({ selectTags = [], setSelectTags }: Props) => {
 		},
 		refetchOnWindowFocus: false,
 	})
+
+	const mutation = useMutation({
+		mutationFn: (newTag: object): Promise<AxiosResponse> => {
+			return axios.post('/api/tags', newTag)
+		},
+		onSuccess: ({ data }) => {
+			queryClient.invalidateQueries({ queryKey: ['tags'] })
+			setSelectTags((prev) => [...prev, ...[data]])
+		},
+	})
+
+	const handleCreate = (inputValue: string) => {
+		mutation.mutate({ label: inputValue })
+	}
 	return (
-		<Select
+		<CreatableSelect
 			isMulti
-			placeholder="Select Tags"
-			options={options}
+			placeholder="Select Tags or Type Tag"
+			isClearable
+			isDisabled={mutation.isLoading}
+			isLoading={mutation.isLoading}
 			onChange={(newOptions) => {
 				setSelectTags(
 					newOptions.map((option) => {
@@ -40,10 +58,13 @@ const TagsSelect = ({ selectTags = [], setSelectTags }: Props) => {
 					})
 				)
 			}}
+			onCreateOption={handleCreate}
+			options={options}
 			value={selectTags.map((tag) => {
 				return { label: tag.label, value: tag.id }
 			})}
 		/>
 	)
 }
-export default TagsSelect
+
+export default TagsCreatableSelect
