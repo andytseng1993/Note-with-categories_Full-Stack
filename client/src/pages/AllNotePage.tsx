@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Row, Col, Button, Stack, Container, Form } from 'react-bootstrap'
 import AllNoteList from '../components/AllNoteList'
 import { Tag } from '../components/CategoryNoteList'
+import EditTags from '../components/EditTags'
 import TagsSelect from '../components/TagsSelect'
 
 const AllNotePage = () => {
@@ -13,6 +14,9 @@ const AllNotePage = () => {
 				<Row className="align-items-center mb-2">
 					<Col>
 						<h1>Notes</h1>
+					</Col>
+					<Col xs="auto">
+						<EditTags />
 					</Col>
 				</Row>
 				<Form className="mb-4">

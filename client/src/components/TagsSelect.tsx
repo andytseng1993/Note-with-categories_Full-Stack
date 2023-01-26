@@ -10,9 +10,14 @@ interface Option {
 interface Props {
 	selectTags: Tag[]
 	setSelectTags: Dispatch<SetStateAction<Tag[]>>
+	isMulti?: boolean
 }
 
-const TagsSelect = ({ selectTags = [], setSelectTags }: Props) => {
+const TagsSelect = ({
+	selectTags = [],
+	setSelectTags,
+	isMulti = true,
+}: Props) => {
 	const [options, setOptions] = useState<Option[]>([])
 	const { data } = useQuery({
 		queryKey: ['tags'],
@@ -30,15 +35,19 @@ const TagsSelect = ({ selectTags = [], setSelectTags }: Props) => {
 	})
 	return (
 		<Select
-			isMulti
+			isMulti={isMulti}
 			placeholder="Select Tags"
 			options={options}
 			onChange={(newOptions) => {
-				setSelectTags(
-					newOptions.map((option) => {
-						return { label: option.label, id: option.value }
-					})
-				)
+				if (Array.isArray(newOptions)) {
+					setSelectTags(
+						newOptions?.map((option: Option) => {
+							return { label: option.label, id: option.value }
+						})
+					)
+				} else {
+					setSelectTags([{ label: newOptions!.label, id: newOptions!.value }])
+				}
 			}}
 			value={selectTags.map((tag) => {
 				return { label: tag.label, value: tag.id }

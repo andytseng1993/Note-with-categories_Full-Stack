@@ -60,7 +60,7 @@ router.delete('/:tagId', async (req, res) => {
                 id: tagId
             }
         })
-        res.status(204)
+        res.status(204).json({ success: true })
     } catch (error) {
         res.status(404).json({ success: false })
     }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Row, Col, Button, Stack, Container, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CategoryNoteList, { Tag } from '../components/CategoryNoteList'
+import EditTags from '../components/EditTags'
 import TagsSelect from '../components/TagsSelect'
 
 const NotePage = () => {
@@ -17,14 +18,9 @@ const NotePage = () => {
 						<h1>Notes</h1>
 					</Col>
 					<Col xs="auto">
-						<Stack gap={2} direction="horizontal">
-							<Link to="new">
-								<Button variant="primary">Create</Button>
-							</Link>
-							<Link to="/">
-								<Button variant="outline-secondary">Edit Tags</Button>
-							</Link>
-						</Stack>
+						<Link to="new">
+							<Button variant="primary">Create</Button>
+						</Link>
 					</Col>
 				</Row>
 				<Form className="mb-4">
