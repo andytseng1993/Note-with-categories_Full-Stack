@@ -27,11 +27,11 @@ const CategoryModal = () => {
 	return (
 		<>
 			<Button variant="primary" className="px-auto" onClick={toggle}>
-				+ Add Category
+				Add Category
 			</Button>
 			<Modal show={state.modal} onHide={toggle}>
 				<Modal.Header closeButton>
-					<Modal.Title>Create a new category</Modal.Title>
+					<Modal.Title>Create A New Category</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					{state.error ? (

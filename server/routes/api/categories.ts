@@ -100,7 +100,7 @@ router.delete('/:id', async (req, res) => {
         await prisma.category.delete({
             where: { id }
         })
-        return res.status(204)
+        return res.status(204).json({ success: true })
     } catch (error) {
         res.status(404).json({ success: false })
     }

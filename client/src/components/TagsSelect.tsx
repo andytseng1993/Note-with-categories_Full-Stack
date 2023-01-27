@@ -46,7 +46,7 @@ const TagsSelect = ({
 						})
 					)
 				} else {
-					setSelectTags([{ label: newOptions!.label, id: newOptions!.value }])
+					setSelectTags([{ label: newOptions?.label, id: newOptions!.value }])
 				}
 			}}
 			value={selectTags.map((tag) => {

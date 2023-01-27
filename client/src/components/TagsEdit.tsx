@@ -5,7 +5,7 @@ import { Alert, Button, Col, Form, Modal, Row, Stack } from 'react-bootstrap'
 import { Tag } from './CategoryNoteList'
 import TagsSelect from './TagsSelect'
 
-const EditTags = () => {
+const TagsEdit = () => {
 	const [selectTags, setSelectTags] = useState<Tag[]>([])
 	const [show, setShow] = useState(false)
 	const [deleteBtn, setDeleteBtn] = useState(false)
@@ -56,6 +56,7 @@ const EditTags = () => {
 		mutationDelete.mutate(selectTags[0].id)
 	}
 	const EditTag = (newTagName: string) => {
+		if (selectTags.length === 0 || newTagName === '') return
 		mutationEdit.mutate({ id: selectTags[0].id, label: newTagName })
 	}
 	return (
@@ -68,91 +69,89 @@ const EditTags = () => {
 					<Modal.Title>{!deleteBtn ? 'Edit Tags' : 'Delete Tag'}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Form>
-						{deleteBtn ? (
-							<Stack gap={2}>
-								<h5>
-									Do you want to <strong>delete</strong> {'"'}
-									{selectTags[0].label}
-									{'"'} Tag?
-								</h5>
-								<Stack
-									direction="horizontal"
-									gap={3}
-									className="justify-content-end my-3"
+					{deleteBtn ? (
+						<Stack gap={2}>
+							<h5>
+								Do you want to <strong>delete</strong> {'"'}
+								{selectTags[0].label}
+								{'"'} Tag?
+							</h5>
+							<Stack
+								direction="horizontal"
+								gap={3}
+								className="justify-content-end my-3"
+							>
+								<Button
+									variant="outline-secondary"
+									onClick={() => setDeleteBtn(!deleteBtn)}
 								>
-									<Button
-										variant="outline-secondary"
-										onClick={() => setDeleteBtn(!deleteBtn)}
-									>
-										Cancel
-									</Button>
-									<Button variant="danger" onClick={DeleteTag}>
-										Delete
-									</Button>
-								</Stack>
+									Cancel
+								</Button>
+								<Button variant="danger" onClick={DeleteTag}>
+									Delete
+								</Button>
 							</Stack>
-						) : editBtn ? (
-							<Stack gap={2}>
-								<h5>
-									Change {'"'} {selectTags[0].label} {'"'} to:
-								</h5>
-
+						</Stack>
+					) : editBtn ? (
+						<Stack gap={2}>
+							<h5>
+								Change {'"'} {selectTags[0].label} {'"'} to:
+							</h5>
+							<Form>
 								<Form.Control
 									type="text"
 									value={newTagName}
 									onChange={(e) => setNewTagName(e.target.value)}
 								/>
-
-								<Stack
-									direction="horizontal"
-									gap={3}
-									className="justify-content-end my-3"
+							</Form>
+							<Stack
+								direction="horizontal"
+								gap={3}
+								className="justify-content-end my-3"
+							>
+								<Button
+									variant="outline-danger"
+									onClick={() => setEditBtn(false)}
 								>
-									<Button
-										variant="outline-danger"
-										onClick={() => setEditBtn(false)}
-									>
-										Cancel
-									</Button>
-									<Button variant="primary" onClick={() => EditTag(newTagName)}>
-										Edit
-									</Button>
-								</Stack>
+									Cancel
+								</Button>
+								<Button variant="primary" onClick={() => EditTag(newTagName)}>
+									Edit
+								</Button>
 							</Stack>
-						) : (
-							<Stack gap={2}>
-								<h5>Select whitch tag to edit :</h5>
-								{errorMsg && selectTags.length === 0 ? (
-									<Alert variant="danger">{errorMsg}</Alert>
-								) : null}
-								<TagsSelect
-									isMulti={false}
-									selectTags={selectTags}
-									setSelectTags={setSelectTags}
-								></TagsSelect>
-								<Stack
-									direction="horizontal"
-									gap={3}
-									className="justify-content-end my-3"
-								>
-									<Button variant="outline-secondary" onClick={toggle}>
-										Cancel
-									</Button>
-									<Button variant="danger" onClick={handleDelete}>
-										Delete
-									</Button>
-									<Button variant="primary" onClick={handleEdit}>
-										Edit
-									</Button>
-								</Stack>
+						</Stack>
+					) : (
+						<Stack gap={2}>
+							<h5>Select which Tag to edit :</h5>
+							{errorMsg && selectTags.length === 0 ? (
+								<Alert variant="danger">{errorMsg}</Alert>
+							) : null}
+							<TagsSelect
+								isMulti={false}
+								selectTags={selectTags}
+								setSelectTags={setSelectTags}
+							></TagsSelect>
+							<Stack
+								direction="horizontal"
+								gap={3}
+								className="justify-content-end my-3"
+							>
+								<Button variant="outline-secondary" onClick={toggle}>
+									Cancel
+								</Button>
+								<Button variant="danger" onClick={handleDelete}>
+									Delete
+								</Button>
+								<Button variant="primary" onClick={handleEdit}>
+									Edit
+								</Button>
 							</Stack>
-						)}
-					</Form>
+						</Stack>
+					)}
 				</Modal.Body>
 			</Modal>
 		</>
 	)
 }
 
-export default EditTags
+export default TagsEdit

@@ -1,7 +1,16 @@
 import { useQueries, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { Button, Nav, Placeholder } from 'react-bootstrap'
+import {
+	Badge,
+	Button,
+	Col,
+	Nav,
+	Placeholder,
+	Row,
+	Stack,
+} from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
+import CategoryEditModal from './CategoryEditModal'
 import CategoryModal from './CategoryModal'
 
 interface CategoryData {
@@ -27,7 +36,10 @@ const CategoryList = () => {
 	return (
 		<>
 			<Nav.Item as="li" className="d-flex flex-column justify-content-center">
-				<CategoryModal />
+				<Stack gap={2}>
+					<CategoryModal />
+					<CategoryEditModal />
+				</Stack>
 			</Nav.Item>
 			<hr className="mt-3" />
 			<Nav.Item as="li">
@@ -67,7 +79,12 @@ const CategoryList = () => {
 									params.categoryId === category.id ? 'active' : ''
 								}`}
 							>
-								{category.name}
+								<Row>
+									<Col>{category.name}</Col>
+									<Col xs="auto">
+										<Badge>{category._count.notes || ''}</Badge>
+									</Col>
+								</Row>
 							</Link>
 						</Nav.Item>
 					))}

@@ -22,6 +22,7 @@ const NewNotePage = () => {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['notes'] })
+			queryClient.invalidateQueries({ queryKey: ['categories'] })
 			navigate('..')
 		},
 	})

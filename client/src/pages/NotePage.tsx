@@ -2,13 +2,12 @@ import { useState } from 'react'
 import { Row, Col, Button, Stack, Container, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CategoryNoteList, { Tag } from '../components/CategoryNoteList'
-import EditTags from '../components/EditTags'
+import EditTags from '../components/TagsEdit'
 import TagsSelect from '../components/TagsSelect'
 
 const NotePage = () => {
 	const [selectTags, setSelectTags] = useState<Tag[]>([])
 	const [titleFilter, setTitleFilter] = useState('')
-	console.log(selectTags)
 
 	return (
 		<>
