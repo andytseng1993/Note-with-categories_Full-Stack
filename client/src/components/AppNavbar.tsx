@@ -3,6 +3,8 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { PropsWithChildren } from 'react'
 import { Link } from 'react-router-dom'
+import LoginModal from './Auth/LoginModal'
+import RegisterModal from './Auth/RegisterModal'
 
 const AppNavbar = ({ children }: PropsWithChildren) => {
 	return (
@@ -20,15 +22,15 @@ const AppNavbar = ({ children }: PropsWithChildren) => {
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse
 						id="basic-navbar-nav"
-						className="justify-content-end"
+						className="justify-content-end align-items-center"
 					>
-						<Nav>
-							<Link to={'/'} className={'text-decoration-none nav-link'}>
-								Register
-							</Link>
-							<Link to={'/'} className={'text-decoration-none nav-link'}>
-								Login
-							</Link>
+						<Nav className="text-light">
+							<Nav.Item className="me-4">
+								<LoginModal />
+							</Nav.Item>
+							<Nav.Item>
+								<RegisterModal />
+							</Nav.Item>
 						</Nav>
 					</Navbar.Collapse>
 				</Container>

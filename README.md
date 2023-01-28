@@ -71,11 +71,16 @@ Then create a record in main()
   - api/tags/:id -- PUT, DELET
 
 - register user
+
   - api/users -- POST
     - Use password to create salt & hash from [bcryptjs](https://www.npmjs.com/package/bcryptjs), and save to database, then use user.id to create token from [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken), and return to client by cookie.
   - api/users/login -- POST
   - api/auth/user -- GET
     - Use jsonwebtoken to verify cookie's sessionId, then use prisma to findUnique by id to get user info.
+
+- user
+  - api/users/login -- POST --> Login
+  - api/users --POST --> Register
 
 ## (Modeling and querying many-to-many relations)[https://www.prisma.io/docs/guides/database/troubleshooting-orm/help-articles/working-with-many-to-many-relations]
 

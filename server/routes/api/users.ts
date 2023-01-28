@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
                             })
                     })
             } catch (error) {
-                res.status(404).json({ error: `Email already exists.` })
+                res.status(404).json(`Email already exists.`)
             }
         })
     })
@@ -62,18 +62,18 @@ router.post('/login', async (req, res) => {
             email
         }
     })
-    if (!user) return res.status(400).json('Cannot find user!')
+    if (!user) return res.status(400).json('Please provide a valid email address and password.')
     try {
         bcrypt.compare(password, user.password)
             .then(isMach => {
-                if (!isMach) return res.status(400).json('Invalid credentials')
+                if (!isMach) return res.status(400).json('Please provide a valid email address and password.')
 
                 jwt.sign({ id: user.id }, secret, { expiresIn: '1h' },
                     (err, token) => {
                         if (err) throw err
-                        return res.status(201)
+                        return res.status(200)
                             .cookie('_session_Id', token, {
-                                secure: true,
+                                secure: false,
                                 httpOnly: true,
                                 sameSite: "none",
                                 maxAge: 360000

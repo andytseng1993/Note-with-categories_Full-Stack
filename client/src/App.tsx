@@ -29,7 +29,7 @@ function App() {
 						<Route path="edit" element={<EditPage />} />
 					</Route>
 				</Route>
-				<Route path="*" element={<Navigate to="/" />}></Route>
+				{/* <Route path="*" element={<Navigate to="/" />}></Route> */}
 			</Route>
 		)
 	)
