@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { FormEvent, useRef, useState } from 'react'
 import {
@@ -25,6 +25,7 @@ const RegisterModal = () => {
 	const userNameRef = useRef<HTMLInputElement>(null)
 	const passwordRef = useRef<HTMLInputElement>(null)
 	const [error, setError] = useState('')
+	const queryClient = useQueryClient()
 
 	const toggle = () => {
 		setShow(false)
@@ -42,6 +43,7 @@ const RegisterModal = () => {
 			setError(err?.response?.data)
 		},
 		onSuccess: () => {
+			queryClient.invalidateQueries(['user'])
 			toggle()
 		},
 	})

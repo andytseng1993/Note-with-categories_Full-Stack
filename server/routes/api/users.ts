@@ -34,11 +34,10 @@ router.post('/', async (req, res) => {
                                 secure: true,
                                 httpOnly: true,
                                 sameSite: "none",
-                                maxAge: 360000
+                                maxAge: 3600000
                             })
                             .json({
                                 user: {
-                                    email: user.email,
                                     userName: user.userName
                                 }
                             })
@@ -76,11 +75,10 @@ router.post('/login', async (req, res) => {
                                 secure: false,
                                 httpOnly: true,
                                 sameSite: "none",
-                                maxAge: 360000
+                                maxAge: 3600000
                             })
                             .json({
                                 user: {
-                                    email: user.email,
                                     userName: user.userName
                                 }
                             })

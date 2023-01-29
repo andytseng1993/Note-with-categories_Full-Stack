@@ -3,12 +3,14 @@ import axios from 'axios'
 import { createContext, PropsWithChildren, useContext, useState } from 'react'
 
 interface CurrentUserAuth {
-	currentUser: object
+	currentUser: {
+		userName: string
+	}
 }
 
 const UserAuthContext = createContext<CurrentUserAuth>({} as CurrentUserAuth)
 export const UserAuthContextProvider = ({ children }: PropsWithChildren) => {
-	const [currentUser, setCurrentUser] = useState({})
+	const [currentUser, setCurrentUser] = useState({ userName: '' })
 	const { data } = useQuery({
 		queryFn: async () => {
 			const { data } = await axios.get('/api/auth/user', {
@@ -24,6 +26,9 @@ export const UserAuthContextProvider = ({ children }: PropsWithChildren) => {
 		queryKey: ['user'],
 		onSuccess: (data) => {
 			setCurrentUser(data)
+		},
+		onError: () => {
+			setCurrentUser({ userName: '' })
 		},
 	})
 	const value = {

@@ -5,8 +5,13 @@ import { PropsWithChildren } from 'react'
 import { Link } from 'react-router-dom'
 import LoginModal from './Auth/LoginModal'
 import RegisterModal from './Auth/RegisterModal'
+import Logout from './Auth/Logout'
+import { useUserAuth } from '../context/UserAuth'
 
 const AppNavbar = ({ children }: PropsWithChildren) => {
+	const { currentUser } = useUserAuth()
+	console.log(currentUser)
+
 	return (
 		<>
 			<Navbar expand="md" bg="dark" variant="dark">
@@ -25,12 +30,25 @@ const AppNavbar = ({ children }: PropsWithChildren) => {
 						className="justify-content-end align-items-center"
 					>
 						<Nav className="text-light">
-							<Nav.Item className="me-4">
-								<LoginModal />
-							</Nav.Item>
-							<Nav.Item>
-								<RegisterModal />
-							</Nav.Item>
+							{currentUser.userName === '' ? (
+								<>
+									<Nav.Item className="me-4">
+										<LoginModal />
+									</Nav.Item>
+									<Nav.Item>
+										<RegisterModal />
+									</Nav.Item>
+								</>
+							) : (
+								<>
+									<Nav.Item className="p-2 mx-2 navbar-dark">
+										Welcome <strong>{currentUser.userName}</strong>
+									</Nav.Item>
+									<Nav.Item>
+										<Logout />
+									</Nav.Item>
+								</>
+							)}
 						</Nav>
 					</Navbar.Collapse>
 				</Container>

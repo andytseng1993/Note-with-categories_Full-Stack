@@ -24,15 +24,28 @@ router.get('/user', async (req, res) => {
             },
             select: {
                 userName: true,
-                email: true,
             }
         })
         return res.json(user)
     } catch (error) {
         res.status(400).json(error)
     }
-
-
+})
+//@route GET api/auth/logout,
+//@desc Auth user
+//@access Public
+router.get('/logout', async (req, res) => {
+    try {
+        return res.status(200)
+            .cookie('_session_Id', '', {
+                secure: false,
+                httpOnly: true,
+                sameSite: "none",
+                maxAge: 0
+            }).json('logout success')
+    } catch (error) {
+        res.status(500)
+    }
 })
 
 export default router

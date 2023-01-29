@@ -10,9 +10,6 @@ import AppNavbar from '../components/AppNavbar'
 import { useUserAuth } from '../context/UserAuth'
 
 const HomePage = () => {
-	const { currentUser } = useUserAuth()
-	console.log(currentUser)
-
 	return (
 		<AppNavbar>
 			<Container fluid={true} className="d-flex flex-row px-0" id="content">
