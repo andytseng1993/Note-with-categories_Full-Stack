@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import express from 'express'
 import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
                             .cookie('_session_Id', token, {
                                 secure: true,
                                 httpOnly: true,
-                                sameSite: "none",
+                                sameSite: "strict",
                                 maxAge: 3600000
                             })
                             .json({
@@ -43,7 +43,11 @@ router.post('/', async (req, res) => {
                             })
                     })
             } catch (error) {
-                res.status(404).json(`Email already exists.`)
+                if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                    // The .code property can be accessed in a type-safe manner
+                    return res.status(404).json({ code: error.code, target: error.meta?.target })
+                }
+                res.status(404).json(error)
             }
         })
     })
@@ -74,7 +78,7 @@ router.post('/login', async (req, res) => {
                             .cookie('_session_Id', token, {
                                 secure: false,
                                 httpOnly: true,
-                                sameSite: "none",
+                                sameSite: "strict",
                                 maxAge: 3600000
                             })
                             .json({

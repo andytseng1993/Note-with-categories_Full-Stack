@@ -40,7 +40,7 @@ router.get('/logout', async (req, res) => {
             .cookie('_session_Id', '', {
                 secure: false,
                 httpOnly: true,
-                sameSite: "none",
+                sameSite: "strict",
                 maxAge: 0
             }).json('logout success')
     } catch (error) {

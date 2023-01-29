@@ -21,16 +21,18 @@ export const UserAuthContextProvider = ({ children }: PropsWithChildren) => {
 			})
 			return data
 		},
-		refetchOnWindowFocus: false,
 		retry: false,
 		queryKey: ['user'],
 		onSuccess: (data) => {
 			setCurrentUser(data)
 		},
-		onError: () => {
+		onError: (err) => {
+			console.log(err)
+
 			setCurrentUser({ userName: '' })
 		},
 	})
+
 	const value = {
 		currentUser,
 	}

@@ -41,7 +41,7 @@ const AppNavbar = ({ children }: PropsWithChildren) => {
 								</>
 							) : (
 								<>
-									<Nav.Item className="p-2 mx-2 navbar-dark">
+									<Nav.Item className="p-2 mx-2 navbar-text">
 										Welcome <strong>{currentUser.userName}</strong>
 									</Nav.Item>
 									<Nav.Item>

@@ -49,6 +49,21 @@ Prisma schema loaded from prisma/schema.prisma
 
 Then create a record in main()
 
+## Prisma handle errors
+
+```
+  if (e instanceof Prisma.PrismaClientKnownRequestError) {
+    // The .code property can be accessed in a type-safe manner
+    if (e.code === 'P2002') {
+      console.log(
+        'There is a unique constraint violation, a new user cannot be created with this email'
+      )
+    }
+  }
+```
+
+To get differrent Prisma-specific error code.
+
 ## Create routes/api
 
 `npm i --save-dev bcryptjs jsonwebtoken @types/bcryptjs @types/jsonwebtoken`

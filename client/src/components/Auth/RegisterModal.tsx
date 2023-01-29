@@ -26,7 +26,10 @@ const RegisterModal = () => {
 	const passwordRef = useRef<HTMLInputElement>(null)
 	const [error, setError] = useState('')
 	const queryClient = useQueryClient()
-
+	const [isInvalid, setIsInvalid] = useState({
+		email: false,
+		username: false,
+	})
 	const toggle = () => {
 		setShow(false)
 		setError('')
@@ -36,11 +39,33 @@ const RegisterModal = () => {
 	}
 	const mutation = useMutation({
 		mutationFn: async (newUserData: NewUser) => {
-			const { data } = await axios.post('api/users', newUserData)
+			const { data } = await axios.post('/api/users', newUserData)
 			return data
 		},
 		onError: (err) => {
-			setError(err?.response?.data)
+			console.log(err?.response?.data)
+			if (!err?.response?.data.code && !err?.response?.data.target) {
+				return setError(JSON.stringify(err?.response?.data))
+			}
+			if (
+				err?.response?.data.code === 'P2002' &&
+				err?.response?.data.target === 'User_email_key'
+			) {
+				return setIsInvalid({
+					email: true,
+					username: false,
+				})
+			}
+			if (
+				err?.response?.data.code === 'P2002' &&
+				err?.response?.data.target === 'User_userName_key'
+			) {
+				return setIsInvalid({
+					email: false,
+					username: true,
+				})
+			}
+			// setError(err?.response?.data)
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries(['user'])
@@ -85,7 +110,11 @@ const RegisterModal = () => {
 									autoFocus={true}
 									ref={emailRef}
 									placeholder="email@example.com"
+									isInvalid={isInvalid.email}
 								></Form.Control>
+								<Form.Control.Feedback type="invalid">
+									That email has already existed. Please choose another.
+								</Form.Control.Feedback>
 							</Col>
 						</Form.Group>
 						<Form.Group as={Row} className="mb-3">
@@ -93,9 +122,16 @@ const RegisterModal = () => {
 								UserName
 							</Form.Label>
 							<Col sm="8">
-								<InputGroup className="mb-2">
+								<InputGroup className="mb-2" hasValidation>
 									<InputGroup.Text>@</InputGroup.Text>
-									<Form.Control placeholder="Username" ref={userNameRef} />
+									<Form.Control
+										placeholder="Username"
+										ref={userNameRef}
+										isInvalid={isInvalid.username}
+									/>
+									<Form.Control.Feedback type="invalid">
+										That username has been taken. Please choose another.
+									</Form.Control.Feedback>
 								</InputGroup>
 							</Col>
 						</Form.Group>

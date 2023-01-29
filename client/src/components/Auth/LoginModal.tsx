@@ -26,7 +26,7 @@ const LoginModal = () => {
 
 	const mutation = useMutation({
 		mutationFn: async (userData: User) => {
-			const { data } = await axios.post('api/users/login', userData)
+			const { data } = await axios.post('/api/users/login', userData)
 			return data
 		},
 		onError: (err) => {
