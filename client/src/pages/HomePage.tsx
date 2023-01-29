@@ -7,8 +7,12 @@ import { Button, ListGroup, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import CategoryList from '../components/CategoryList'
 import AppNavbar from '../components/AppNavbar'
+import { useUserAuth } from '../context/UserAuth'
 
 const HomePage = () => {
+	const { currentUser } = useUserAuth()
+	console.log(currentUser)
+
 	return (
 		<AppNavbar>
 			<Container fluid={true} className="d-flex flex-row px-0" id="content">

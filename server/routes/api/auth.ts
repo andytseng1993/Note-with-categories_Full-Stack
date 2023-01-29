@@ -25,7 +25,6 @@ router.get('/user', async (req, res) => {
             select: {
                 userName: true,
                 email: true,
-                registerAt: true
             }
         })
         return res.json(user)
