@@ -15,7 +15,7 @@ interface JwtPayload {
 //@access Public
 
 router.get('/user', async (req, res) => {
-    if (!req.cookies._session_Id) return res.status(401).json('No token, authorization denied')
+    if (!req.cookies._session_Id) return res.status(401).json('No cookie, authorization denied')
     try {
         const decode = jwt.verify(req.cookies._session_Id, secret) as JwtPayload
         const user = await prisma.user.findUnique({

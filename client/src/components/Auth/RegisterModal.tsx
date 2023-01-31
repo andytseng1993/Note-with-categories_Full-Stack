@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { FormEvent, useRef, useState } from 'react'
 import {
 	Alert,
@@ -36,6 +36,7 @@ const RegisterModal = () => {
 		emailRef.current!.value = ''
 		userNameRef.current!.value = ''
 		passwordRef.current!.value = ''
+		setIsInvalid({ email: false, username: false })
 	}
 	const mutation = useMutation({
 		mutationFn: async (newUserData: NewUser) => {
@@ -43,29 +44,33 @@ const RegisterModal = () => {
 			return data
 		},
 		onError: (err) => {
-			console.log(err?.response?.data)
-			if (!err?.response?.data.code && !err?.response?.data.target) {
-				return setError(JSON.stringify(err?.response?.data))
+			if (err instanceof AxiosError) {
+				if (!err.response?.data.code && !err.response?.data.target) {
+					return setError(JSON.stringify(err?.response?.data))
+				}
+				if (
+					err.response?.data.code === 'P2002' &&
+					err.response?.data.target === 'User_email_key'
+				) {
+					emailRef.current?.focus()
+					return setIsInvalid({
+						email: true,
+						username: false,
+					})
+				}
+				if (
+					err.response?.data.code === 'P2002' &&
+					err.response?.data.target === 'User_userName_key'
+				) {
+					userNameRef.current?.focus()
+					return setIsInvalid({
+						email: false,
+						username: true,
+					})
+				}
+			} else {
+				setError('Unexpected error')
 			}
-			if (
-				err?.response?.data.code === 'P2002' &&
-				err?.response?.data.target === 'User_email_key'
-			) {
-				return setIsInvalid({
-					email: true,
-					username: false,
-				})
-			}
-			if (
-				err?.response?.data.code === 'P2002' &&
-				err?.response?.data.target === 'User_userName_key'
-			) {
-				return setIsInvalid({
-					email: false,
-					username: true,
-				})
-			}
-			// setError(err?.response?.data)
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries(['user'])
@@ -113,7 +118,7 @@ const RegisterModal = () => {
 									isInvalid={isInvalid.email}
 								></Form.Control>
 								<Form.Control.Feedback type="invalid">
-									That email has already existed. Please choose another.
+									That email has already existed.
 								</Form.Control.Feedback>
 							</Col>
 						</Form.Group>

@@ -121,6 +121,27 @@ It can fix undifined problem! 2. Typescript don't know about JwtPayload. Data de
   const { id } = jwt.verify(token, 'thisisfromabhishek') as JwtPayload
 ```
 
+## Express middleware
+
+```
+  import { NextFunction, Request, Response } from 'express'
+  const auth = (req: Request,res: Response,next: NextFunction) =>{
+    ...
+  }
+```
+
+If use unique req, we can use extends in interface.
+
+```
+  interface RequestWithId extends Request {
+    user?: UserId
+  }
+  interface UserId {
+    id: string
+  }
+
+```
+
 # Setup Client
 
 Run `npm create vite`, then select react and typescript.

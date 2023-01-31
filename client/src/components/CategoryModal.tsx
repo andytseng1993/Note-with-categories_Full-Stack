@@ -29,7 +29,7 @@ const CategoryModal = () => {
 			<Button variant="primary" className="px-auto" onClick={toggle}>
 				Add Category
 			</Button>
-			<Modal show={state.modal} onHide={toggle}>
+			<Modal show={state.modal} onHide={toggle} centered>
 				<Modal.Header closeButton>
 					<Modal.Title>Create A New Category</Modal.Title>
 				</Modal.Header>
