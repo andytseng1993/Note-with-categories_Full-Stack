@@ -8,8 +8,13 @@ import RegisterModal from './Auth/RegisterModal'
 import Logout from './Auth/Logout'
 import { useUserAuth } from '../context/UserAuth'
 
-const AppNavbar = ({ children }: PropsWithChildren) => {
-	const { currentUser } = useUserAuth()
+interface AppNavbarProps extends PropsWithChildren {
+	currentUser: {
+		userName: string
+	}
+}
+
+const AppNavbar = ({ children, currentUser }: AppNavbarProps) => {
 	console.log(currentUser)
 
 	return (
@@ -41,7 +46,7 @@ const AppNavbar = ({ children }: PropsWithChildren) => {
 								</>
 							) : (
 								<>
-									<Nav.Item className="p-2 mx-2 navbar-text">
+									<Nav.Item className="p-2 mx-2 text-light">
 										Welcome <strong>{currentUser.userName}</strong>
 									</Nav.Item>
 									<Nav.Item>

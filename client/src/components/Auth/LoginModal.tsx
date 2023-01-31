@@ -11,6 +11,7 @@ import {
 	Row,
 	Stack,
 } from 'react-bootstrap'
+import { useUserToasts } from '../../context/UserToasts'
 
 interface User {
 	email: string
@@ -23,6 +24,7 @@ const LoginModal = () => {
 	const passwordRef = useRef<HTMLInputElement>(null)
 	const [error, setError] = useState('')
 	const queryClient = useQueryClient()
+	const { setToastShow, setToastContent } = useUserToasts()
 
 	const mutation = useMutation({
 		mutationFn: async (userData: User) => {
@@ -30,10 +32,17 @@ const LoginModal = () => {
 			return data
 		},
 		onError: (err) => {
-			setError(err?.response?.data)
+			if (axios.isAxiosError(err)) {
+				setError(err.response?.data)
+			}
 		},
-		onSuccess: () => {
+		onSuccess: ({ user }) => {
 			queryClient.invalidateQueries(['user'])
+			setToastShow(true)
+			setToastContent({
+				header: `Welcome Back ${user.userName}`,
+				body: 'Success Log In!',
+			})
 			toggle()
 		},
 	})

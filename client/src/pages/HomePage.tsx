@@ -8,10 +8,16 @@ import { Link } from 'react-router-dom'
 import CategoryList from '../components/CategoryList'
 import AppNavbar from '../components/AppNavbar'
 import { useUserAuth } from '../context/UserAuth'
+import Toasts from '../components/Toasts'
+import { useState } from 'react'
+import { useUserToasts } from '../context/UserToasts'
 
 const HomePage = () => {
+	const { currentUser } = useUserAuth()
+	const { toastShow, setToastShow, toastContent } = useUserToasts()
+
 	return (
-		<AppNavbar>
+		<AppNavbar currentUser={currentUser}>
 			<Container fluid={true} className="d-flex flex-row px-0" id="content">
 				<Row className="d-flex flex-grow-1 mx-0">
 					<Col
@@ -31,6 +37,11 @@ const HomePage = () => {
 					</Col>
 				</Row>
 			</Container>
+			<Toasts
+				toastShow={toastShow}
+				setToastShow={setToastShow}
+				toastContent={toastContent}
+			/>
 		</AppNavbar>
 	)
 }

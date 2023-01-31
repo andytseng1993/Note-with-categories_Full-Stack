@@ -3,11 +3,14 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Button, Modal, Nav, Spinner, Stack } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { useUserToasts } from '../../context/UserToasts'
 
 const Logout = () => {
 	const queryClient = useQueryClient()
 	const navigate = useNavigate()
 	const [show, setShow] = useState(false)
+	const { setToastShow, setToastContent } = useUserToasts()
+
 	const mutation = useMutation({
 		mutationFn: async () => {
 			await axios.get('/api/auth/logout')
@@ -15,6 +18,11 @@ const Logout = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['user'] })
 			navigate('/')
+			setToastShow(true)
+			setToastContent({
+				header: `See you next time :)`,
+				body: 'Success Log Out!',
+			})
 		},
 	})
 	const logout = () => {
@@ -40,8 +48,6 @@ const Logout = () => {
 							<Spinner animation="border" />
 							<h5 className="my-0">Loading...</h5>
 						</Stack>
-					) : mutation.isSuccess ? (
-						<h5>Log out success!</h5>
 					) : (
 						<h5>Do you want to log out?</h5>
 					)}

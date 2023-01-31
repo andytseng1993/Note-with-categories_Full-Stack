@@ -12,6 +12,7 @@ import {
 	Row,
 	Stack,
 } from 'react-bootstrap'
+import { useUserToasts } from '../../context/UserToasts'
 
 interface NewUser {
 	email: string
@@ -26,6 +27,8 @@ const RegisterModal = () => {
 	const passwordRef = useRef<HTMLInputElement>(null)
 	const [error, setError] = useState('')
 	const queryClient = useQueryClient()
+	const { setToastShow, setToastContent } = useUserToasts()
+
 	const [isInvalid, setIsInvalid] = useState({
 		email: false,
 		username: false,
@@ -72,9 +75,14 @@ const RegisterModal = () => {
 				setError('Unexpected error')
 			}
 		},
-		onSuccess: () => {
+		onSuccess: ({ user }) => {
 			queryClient.invalidateQueries(['user'])
 			toggle()
+			setToastShow(true)
+			setToastContent({
+				header: `Nice to meet you, ${user.userName}`,
+				body: 'Success Register!',
+			})
 		},
 	})
 	const handleRegister = (e: FormEvent) => {

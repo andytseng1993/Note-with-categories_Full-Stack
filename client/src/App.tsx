@@ -16,6 +16,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import AllNotePage from './pages/AllNotePage'
 import EditPage from './pages/EditPage'
 import { UserAuthContextProvider } from './context/UserAuth'
+import { UserToastsProvider } from './context/UserToasts'
 
 function App() {
 	const router = createBrowserRouter(
@@ -38,9 +39,11 @@ function App() {
 	return (
 		<>
 			<QueryClientProvider client={queryClient}>
-				<UserAuthContextProvider>
-					<RouterProvider router={router} />
-				</UserAuthContextProvider>
+				<UserToastsProvider>
+					<UserAuthContextProvider>
+						<RouterProvider router={router} />
+					</UserAuthContextProvider>
+				</UserToastsProvider>
 			</QueryClientProvider>
 		</>
 	)
