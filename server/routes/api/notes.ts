@@ -51,6 +51,7 @@ router.get('/:noteId', async (req, res) => {
                         userName: true
                     }
                 },
+                editor: true,
                 tags: {
                     select: {
                         id: true,
@@ -63,6 +64,7 @@ router.get('/:noteId', async (req, res) => {
                         name: true
                     }
                 },
+                createdAt: true,
                 updateAt: true
             }
         })
@@ -80,7 +82,7 @@ interface PropsType {
     body: string
     authorName: string
     categoryId: string
-    tagIdArray: [TagId]
+    tagIdArray: TagId[]
 }
 interface TagId {
     id: string
@@ -111,7 +113,7 @@ router.post('/', async (req, res) => {
 //@access Public
 router.put('/:noteId', async (req, res) => {
     const { noteId } = req.params
-    const { title, body, authorName, tagIdArray, categoryId } = req.body
+    const { title, body, editor, tagIdArray, categoryId } = req.body
     try {
         const note = await prisma.note.update({
             where: {
@@ -120,7 +122,7 @@ router.put('/:noteId', async (req, res) => {
             data: {
                 title,
                 body,
-                authorName,
+                editor,
                 tags: { set: tagIdArray },
                 categoryId
             }

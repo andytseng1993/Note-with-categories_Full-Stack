@@ -2,7 +2,18 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios, { AxiosResponse } from 'axios'
 import { Container } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
-import NoteForm, { NoteMutateType } from '../components/NoteForm'
+import NoteForm from '../components/NoteForm'
+
+export interface NoteMutateType {
+	title: string
+	body: string
+	editor?: string
+	tagIdArray: TagId[]
+	categoryId: string
+}
+interface TagId {
+	id: string
+}
 
 const EditPage = () => {
 	const { noteId } = useParams()

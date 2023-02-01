@@ -11,17 +11,6 @@ import { useUserAuth } from '../context/UserAuth'
 import { Tag } from './CategoryNoteList'
 import TagsCreatableSelect from './TagsCreatableSelect'
 
-export interface NoteMutateType {
-	title: string
-	body: string
-	authorName: string
-	tagIdArray: TagId[]
-	categoryId: string
-}
-interface TagId {
-	id: string
-}
-
 interface NoteFormProps {
 	mutation: UseMutationResult<AxiosResponse<any, any>, unknown, any, unknown>
 	title?: string
@@ -50,6 +39,7 @@ const NoteForm = ({
 			title: titleRef.current!.value,
 			body: markdownRef.current!.value,
 			authorName: currentUser.userName,
+			editor: currentUser.userName,
 			tagIdArray: tagIdArray,
 			categoryId: categoryId!,
 		}

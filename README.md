@@ -77,7 +77,7 @@ To get differrent Prisma-specific error code.
 
   - api/notes -- GET,
     - POST -- title, body, authorId, tagIdArray? ,categoryId?
-  - api/notes/:noteId -- PUT --title, body, authorId, tagIdArray
+  - api/notes/:noteId -- PUT --title, body, editAuthor, tagIdArray, categoryId
   - api/notes/:noteId -- GET,DELETE
 
 - tags

@@ -17,7 +17,7 @@ const ProtectedRouter = ({ children }: PropsWithChildren) => {
 	if (currentUser.userName === '') {
 		return <Navigate to={'.'}></Navigate>
 	}
-	return children ? children : <Outlet />
+	return <>{children ? children : <Outlet />}</>
 }
 
 export default ProtectedRouter
