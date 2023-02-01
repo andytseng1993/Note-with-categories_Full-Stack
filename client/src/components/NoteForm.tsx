@@ -7,6 +7,7 @@ import axios, { AxiosResponse } from 'axios'
 import { FormEvent, useRef, useState } from 'react'
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
+import { useUserAuth } from '../context/UserAuth'
 import { Tag } from './CategoryNoteList'
 import TagsCreatableSelect from './TagsCreatableSelect'
 
@@ -38,7 +39,7 @@ const NoteForm = ({
 	const [selectTags, setSelectTags] = useState<Tag[]>(tags)
 	const titleRef = useRef<HTMLInputElement>(null)
 	const markdownRef = useRef<HTMLTextAreaElement>(null)
-
+	const { currentUser } = useUserAuth()
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault()
 
@@ -48,7 +49,7 @@ const NoteForm = ({
 		const NewNoteData = {
 			title: titleRef.current!.value,
 			body: markdownRef.current!.value,
-			authorName: 'Andy',
+			authorName: currentUser.userName,
 			tagIdArray: tagIdArray,
 			categoryId: categoryId!,
 		}

@@ -1,5 +1,6 @@
 import express from 'express'
 import { PrismaClient } from '@prisma/client'
+import authMiddleware from '../../middleware/authMiddleware'
 
 const router = express.Router()
 const prisma = new PrismaClient()
@@ -58,8 +59,8 @@ router.get('/:id', async (req, res) => {
 
 //@route POST api/categories
 //desc return A category
-//@access Public
-router.post('/', async (req, res) => {
+//@access Private
+router.post('/', authMiddleware, async (req, res) => {
     const { name } = req.body
     if (name.trim() === '') return res.status(401).json('Please enter all fields.')
     const category = await prisma.category.create({
@@ -72,8 +73,8 @@ router.post('/', async (req, res) => {
 
 //@route PUT api/categories/:id
 //@desc A category
-//@access Public
-router.put('/:id', async (req, res) => {
+//@access Private
+router.put('/:id', authMiddleware, async (req, res) => {
     const { id } = req.params
     const { name } = req.body
     try {
@@ -93,8 +94,8 @@ router.put('/:id', async (req, res) => {
 
 //@route DELETE api/categories/:id
 //@desc A category
-//@access Public
-router.delete('/:id', async (req, res) => {
+//@access Private
+router.delete('/:id', authMiddleware, async (req, res) => {
     const { id } = req.params
     try {
         await prisma.category.delete({

@@ -25,7 +25,7 @@ const CategoryModal = () => {
 	})
 
 	const toggle = () => {
-		if (currentUser.userName === '') {
+		if (currentUser.userName === '' || currentUser.userName === null) {
 			setToastShow(true)
 			setToastContent({
 				header: 'Please log in!',

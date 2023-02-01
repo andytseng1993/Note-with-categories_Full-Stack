@@ -38,7 +38,8 @@ const AppNavbar = ({ children, currentUser }: AppNavbarProps) => {
 						className="justify-content-end align-items-center"
 					>
 						<Nav className="text-light">
-							{currentUser.userName === '' ? (
+							{currentUser.userName === null ? null : currentUser.userName ===
+							  '' ? (
 								<>
 									<Nav.Item className="me-4">
 										<LoginModal show={show} setShow={setShow} />
