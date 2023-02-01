@@ -24,6 +24,7 @@ router.get('/user', async (req, res) => {
             },
             select: {
                 userName: true,
+                role: true
             }
         })
         return res.json(user)

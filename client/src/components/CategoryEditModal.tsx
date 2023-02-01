@@ -165,9 +165,16 @@ const CategoryEditModal = () => {
 								<Button variant="outline-secondary" onClick={toggle}>
 									Cancel
 								</Button>
-								<Button variant="danger" onClick={() => handleFn(setDeleteBtn)}>
-									Delete
-								</Button>
+								{currentUser.role === 'ADMIN' ? (
+									<>
+										<Button
+											variant="danger"
+											onClick={() => handleFn(setDeleteBtn)}
+										>
+											Delete
+										</Button>
+									</>
+								) : null}
 								<Button variant="primary" onClick={() => handleFn(setEditBtn)}>
 									Edit
 								</Button>

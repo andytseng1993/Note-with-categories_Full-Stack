@@ -65,7 +65,11 @@ const Note = () => {
 									<Link to="edit">
 										<Button variant="primary">Edit</Button>
 									</Link>
-									<NoteDeleteModal title={data.title} noteId={noteId!} />
+									<NoteDeleteModal
+										author={data.author?.userName}
+										title={data.title}
+										noteId={noteId!}
+									/>
 									<Link to="..">
 										<Button variant="outline-secondary">Back</Button>
 									</Link>

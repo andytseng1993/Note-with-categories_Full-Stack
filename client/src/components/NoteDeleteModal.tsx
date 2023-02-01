@@ -3,14 +3,19 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Button, Modal, Stack } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { useUserAuth } from '../context/UserAuth'
 
 interface NoteDeleteModalProps {
 	title: string
 	noteId: string
+	author: string
 }
-const NoteDeleteModal = ({ title, noteId }: NoteDeleteModalProps) => {
+const NoteDeleteModal = ({ author, title, noteId }: NoteDeleteModalProps) => {
 	const [show, setShow] = useState(false)
 	const navigate = useNavigate()
+	const { currentUser } = useUserAuth()
+	console.log(currentUser)
+
 	const toggle = () => {
 		setShow(!show)
 	}
@@ -43,21 +48,32 @@ const NoteDeleteModal = ({ title, noteId }: NoteDeleteModalProps) => {
 				</Modal.Header>
 				<Modal.Body>
 					<Stack>
-						<p>
-							Do you want to <strong>delete</strong> this note?
-						</p>
-						<h5>
-							Title: <strong>{title}</strong>
-						</h5>
+						{author === currentUser.userName || currentUser.role === 'ADMIN' ? (
+							<>
+								<p>
+									Do you want to <strong>delete</strong> this note?
+								</p>
+								<h5>
+									Title: <strong>{title}</strong>
+								</h5>
+							</>
+						) : (
+							<>
+								<h5>Sorry! You cannot delete this note!</h5>
+								<p>Only author and 'ADMIN' can Delete this.</p>
+							</>
+						)}
 					</Stack>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={toggle}>
 						Cancel
 					</Button>
-					<Button variant="danger" onClick={handleDelete}>
-						Delete It !{' '}
-					</Button>
+					{author === currentUser.userName || currentUser.role === 'ADMIN' ? (
+						<Button variant="danger" onClick={handleDelete}>
+							Delete It !{' '}
+						</Button>
+					) : null}
 				</Modal.Footer>
 			</Modal>
 		</>

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import express from 'express'
+import authMiddleware from '../../middleware/authMiddleware'
 
 const router = express.Router()
 const prisma = new PrismaClient()
@@ -20,8 +21,8 @@ router.get('/', async (req, res) => {
 
 //@route POST api/tags
 //@desc return a tag
-//@access Public
-router.post('/', async (req, res) => {
+//@access Private
+router.post('/', authMiddleware, async (req, res) => {
     const { label } = req.body
     const tag = await prisma.tag.create({
         data: {
@@ -33,8 +34,8 @@ router.post('/', async (req, res) => {
 
 //@route PUT api/tags
 //@desc Add a tag to Note
-//@access Public
-router.put('/:tagId', async (req, res) => {
+//@access Private
+router.put('/:tagId', authMiddleware, async (req, res) => {
     const { tagId } = req.params
     const { label } = req.body
     const tag = await prisma.tag.update({
@@ -50,9 +51,9 @@ router.put('/:tagId', async (req, res) => {
 
 //@route DELETE api/tags
 //@desc return a tag
-//@access Public
+//@access Private
 
-router.delete('/:tagId', async (req, res) => {
+router.delete('/:tagId', authMiddleware, async (req, res) => {
     const { tagId } = req.params
     try {
         await prisma.tag.delete({

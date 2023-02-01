@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import express from 'express'
+import authMiddleware from '../../middleware/authMiddleware';
 
 const prisma = new PrismaClient()
 const router = express.Router()
@@ -76,7 +77,7 @@ router.get('/:noteId', async (req, res) => {
 
 //@route POST api/notes/
 //@desc return new note
-//@access Public
+//@access Private
 interface PropsType {
     title: string
     body: string
@@ -87,7 +88,7 @@ interface PropsType {
 interface TagId {
     id: string
 }
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
     const { title, body, authorName, tagIdArray, categoryId }: PropsType = req.body
     try {
         await prisma.note.create({
@@ -110,8 +111,8 @@ router.post('/', async (req, res) => {
 
 //@route PUT api/notes/:noteId
 //@desc return a note in category
-//@access Public
-router.put('/:noteId', async (req, res) => {
+//@access Private
+router.put('/:noteId', authMiddleware, async (req, res) => {
     const { noteId } = req.params
     const { title, body, editor, tagIdArray, categoryId } = req.body
     try {
@@ -136,8 +137,8 @@ router.put('/:noteId', async (req, res) => {
 
 //@route DELETE api/notes/:noteId
 //@desc return a note in category
-//@access Public
-router.delete('/:noteId', async (req, res) => {
+//@access Private
+router.delete('/:noteId', authMiddleware, async (req, res) => {
     const { noteId } = req.params
     try {
         await prisma.note.delete({

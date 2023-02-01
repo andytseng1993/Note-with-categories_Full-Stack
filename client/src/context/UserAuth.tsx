@@ -7,11 +7,15 @@ interface CurrentUserAuth {
 }
 interface UserName {
 	userName: string | null
+	role: string | null
 }
 
 const UserAuthContext = createContext<CurrentUserAuth>({} as CurrentUserAuth)
 export const UserAuthContextProvider = ({ children }: PropsWithChildren) => {
-	const [currentUser, setCurrentUser] = useState<UserName>({ userName: null })
+	const [currentUser, setCurrentUser] = useState<UserName>({
+		userName: null,
+		role: null,
+	})
 	const { data } = useQuery({
 		queryFn: async () => {
 			const { data } = await axios.get('/api/auth/user', {
@@ -28,7 +32,7 @@ export const UserAuthContextProvider = ({ children }: PropsWithChildren) => {
 			setCurrentUser(data)
 		},
 		onError: (err) => {
-			setCurrentUser({ userName: '' })
+			setCurrentUser({ userName: '', role: '' })
 		},
 	})
 

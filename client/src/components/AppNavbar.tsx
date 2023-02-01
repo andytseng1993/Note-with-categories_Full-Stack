@@ -10,7 +10,8 @@ import { useUserAuth } from '../context/UserAuth'
 
 interface AppNavbarProps extends PropsWithChildren {
 	currentUser: {
-		userName: string
+		userName: string | null
+		role: string | null
 	}
 }
 
@@ -50,9 +51,15 @@ const AppNavbar = ({ children, currentUser }: AppNavbarProps) => {
 								</>
 							) : (
 								<>
-									<Nav.Item className="p-2 mx-2 text-light">
-										Welcome <strong>{currentUser.userName}</strong>
-									</Nav.Item>
+									{currentUser.role === 'ADMIN' ? (
+										<Nav.Item className="p-2 mx-2 text-light">
+											Welcome <strong>{currentUser.userName} : ADMIN</strong>
+										</Nav.Item>
+									) : (
+										<Nav.Item className="p-2 mx-2 text-light">
+											Welcome <strong>{currentUser.userName}</strong>
+										</Nav.Item>
+									)}
 									<Nav.Item>
 										<Logout />
 									</Nav.Item>
