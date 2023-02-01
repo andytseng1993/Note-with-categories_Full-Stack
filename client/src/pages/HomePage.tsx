@@ -1,15 +1,9 @@
 import { Outlet } from 'react-router'
-import Container from 'react-bootstrap/esm/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Stack from 'react-bootstrap/Stack'
-import { Button, ListGroup, Nav } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Container, Row, Col, Nav } from 'react-bootstrap'
 import CategoryList from '../components/CategoryList'
 import AppNavbar from '../components/AppNavbar'
-import { useUserAuth } from '../context/UserAuth'
 import Toasts from '../components/Toasts'
-import { useState } from 'react'
+import { useUserAuth } from '../context/UserAuth'
 import { useUserToasts } from '../context/UserToasts'
 
 const HomePage = () => {

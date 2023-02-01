@@ -3,6 +3,8 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Alert, Button, Form, Modal, Stack } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { useUserAuth } from '../context/UserAuth'
+import { useUserToasts } from '../context/UserToasts'
 import CategorySelect from './CategorySelect'
 
 interface SelectCategory {
@@ -19,6 +21,8 @@ const CategoryEditModal = () => {
 	const [newCategoryName, setNewCategoryName] = useState('')
 	const queryClient = useQueryClient()
 	const navigate = useNavigate()
+	const { currentUser } = useUserAuth()
+	const { setToastShow, setToastContent } = useUserToasts()
 
 	const mutationDelete = useMutation({
 		mutationFn: (id: string) => {
@@ -45,7 +49,15 @@ const CategoryEditModal = () => {
 	})
 
 	const toggle = () => {
-		setShow(false)
+		if (currentUser.userName === '') {
+			setToastShow(true)
+			setToastContent({
+				header: 'Please log in!',
+				body: 'Member function only',
+			})
+			return
+		}
+		setShow(!show)
 		setEditBtn(false)
 		setDeleteBtn(false)
 		setErrorMsg('')
@@ -69,11 +81,7 @@ const CategoryEditModal = () => {
 
 	return (
 		<>
-			<Button
-				variant="outline-secondary"
-				className="px-auto"
-				onClick={() => setShow(true)}
-			>
+			<Button variant="outline-secondary" className="px-auto" onClick={toggle}>
 				Edit Category
 			</Button>
 			<Modal show={show} onHide={toggle} backdrop="static" centered>

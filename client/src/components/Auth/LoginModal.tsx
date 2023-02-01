@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { FormEvent, useRef, useState } from 'react'
+import { Dispatch, FormEvent, SetStateAction, useRef, useState } from 'react'
 import {
 	Alert,
 	Button,
@@ -17,9 +17,16 @@ interface User {
 	email: string
 	password: string
 }
+interface LoginProps {
+	show: Show
+	setShow: Dispatch<SetStateAction<Show>>
+}
+interface Show {
+	showLoginModal: boolean
+	showRegisterModal: boolean
+}
 
-const LoginModal = () => {
-	const [show, setShow] = useState(false)
+const LoginModal = ({ show, setShow }: LoginProps) => {
 	const emailRef = useRef<HTMLInputElement>(null)
 	const passwordRef = useRef<HTMLInputElement>(null)
 	const [error, setError] = useState('')
@@ -47,7 +54,10 @@ const LoginModal = () => {
 		},
 	})
 	const toggle = () => {
-		setShow(false)
+		setShow({
+			showLoginModal: false,
+			showRegisterModal: false,
+		})
 		setError('')
 		emailRef.current!.value = ''
 		passwordRef.current!.value = ''
@@ -64,13 +74,34 @@ const LoginModal = () => {
 		}
 		mutation.mutate(userData)
 	}
+	const showRegister = () => {
+		toggle()
+		setShow({
+			showLoginModal: false,
+			showRegisterModal: true,
+		})
+	}
 
 	return (
 		<>
-			<Nav.Link onClick={() => setShow(true)}>Log in</Nav.Link>
-			<Modal show={show} onHide={toggle} centered backdrop="static">
+			<Nav.Link
+				onClick={() =>
+					setShow({
+						showLoginModal: true,
+						showRegisterModal: false,
+					})
+				}
+			>
+				Log In
+			</Nav.Link>
+			<Modal
+				show={show.showLoginModal}
+				onHide={toggle}
+				centered
+				backdrop="static"
+			>
 				<Modal.Header closeButton>
-					<Modal.Title>Log in</Modal.Title>
+					<Modal.Title>Log In</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					{error ? (
@@ -110,11 +141,19 @@ const LoginModal = () => {
 							gap={2}
 						>
 							<Button className="px-5" type="submit">
-								Log in
+								Log In
 							</Button>
 						</Stack>
 					</Form>
 				</Modal.Body>
+				<Modal.Footer className="justify-content-center align-items-center">
+					<small>Don’t have an account?</small>
+					<p>
+						<a href="#" onClick={showRegister}>
+							Sign Up
+						</a>
+					</p>
+				</Modal.Footer>
 			</Modal>
 		</>
 	)

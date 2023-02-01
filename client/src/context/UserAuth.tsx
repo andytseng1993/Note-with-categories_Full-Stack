@@ -27,8 +27,6 @@ export const UserAuthContextProvider = ({ children }: PropsWithChildren) => {
 			setCurrentUser(data)
 		},
 		onError: (err) => {
-			console.log(err)
-
 			setCurrentUser({ userName: '' })
 		},
 	})

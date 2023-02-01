@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useState } from 'react'
 import { Alert, Button, Col, Form, Modal, Row, Stack } from 'react-bootstrap'
+import { useUserAuth } from '../context/UserAuth'
+import { useUserToasts } from '../context/UserToasts'
 import { Tag } from './CategoryNoteList'
 import TagsSelect from './TagsSelect'
 
@@ -13,6 +15,8 @@ const TagsEdit = () => {
 	const [errorMsg, setErrorMsg] = useState('')
 	const [newTagName, setNewTagName] = useState('')
 	const queryClient = useQueryClient()
+	const { currentUser } = useUserAuth()
+	const { setToastShow, setToastContent } = useUserToasts()
 
 	const mutationDelete = useMutation({
 		mutationFn: (id: string) => {
@@ -36,7 +40,15 @@ const TagsEdit = () => {
 		},
 	})
 	const toggle = () => {
-		setShow(false)
+		if (currentUser.userName === '') {
+			setToastShow(true)
+			setToastContent({
+				header: 'Please log in!',
+				body: 'Member function only',
+			})
+			return
+		}
+		setShow(!show)
 		setDeleteBtn(false)
 		setEditBtn(false)
 		setErrorMsg('')
@@ -61,7 +73,7 @@ const TagsEdit = () => {
 	}
 	return (
 		<>
-			<Button variant="outline-secondary" onClick={() => setShow(true)}>
+			<Button variant="outline-secondary" onClick={toggle}>
 				Edit Tags
 			</Button>
 			<Modal show={show} onHide={toggle} backdrop="static" centered>

@@ -17,6 +17,7 @@ import AllNotePage from './pages/AllNotePage'
 import EditPage from './pages/EditPage'
 import { UserAuthContextProvider } from './context/UserAuth'
 import { UserToastsProvider } from './context/UserToasts'
+import ProtectedRouter from './components/ProtectedRouter'
 
 function App() {
 	const router = createBrowserRouter(
@@ -25,10 +26,12 @@ function App() {
 				<Route index element={<AllNotePage />} />
 				<Route path="/:categoryId">
 					<Route index element={<NotePage />} />
-					<Route path="new" element={<NewNotePage />} />
-					<Route path="note/:noteId">
-						<Route index element={<Note />} />
-						<Route path="edit" element={<EditPage />} />
+					<Route element={<ProtectedRouter />}>
+						<Route path="new" element={<NewNotePage />} />
+						<Route path="note/:noteId">
+							<Route index element={<Note />} />
+							<Route path="edit" element={<EditPage />} />
+						</Route>
 					</Route>
 				</Route>
 				{/* <Route path="*" element={<Navigate to="/" />}></Route> */}

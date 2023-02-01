@@ -2,8 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { FormEvent, useState } from 'react'
 import { Button, Modal, Form, Stack, Alert } from 'react-bootstrap'
+import { useUserAuth } from '../context/UserAuth'
+import { useUserToasts } from '../context/UserToasts'
 
 const CategoryModal = () => {
+	const { currentUser } = useUserAuth()
+	const { setToastShow, setToastContent } = useUserToasts()
 	const queryClient = useQueryClient()
 	const [state, setState] = useState({
 		modal: false,
@@ -21,6 +25,14 @@ const CategoryModal = () => {
 	})
 
 	const toggle = () => {
+		if (currentUser.userName === '') {
+			setToastShow(true)
+			setToastContent({
+				header: 'Please log in!',
+				body: 'Member function only',
+			})
+			return
+		}
 		setState((pre) => ({ ...pre, modal: !pre.modal }))
 	}
 

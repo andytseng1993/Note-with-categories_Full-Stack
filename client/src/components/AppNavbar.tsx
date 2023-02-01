@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, useState } from 'react'
 import { Link } from 'react-router-dom'
 import LoginModal from './Auth/LoginModal'
 import RegisterModal from './Auth/RegisterModal'
@@ -15,7 +15,10 @@ interface AppNavbarProps extends PropsWithChildren {
 }
 
 const AppNavbar = ({ children, currentUser }: AppNavbarProps) => {
-	console.log(currentUser)
+	const [show, setShow] = useState({
+		showLoginModal: false,
+		showRegisterModal: false,
+	})
 
 	return (
 		<>
@@ -38,10 +41,10 @@ const AppNavbar = ({ children, currentUser }: AppNavbarProps) => {
 							{currentUser.userName === '' ? (
 								<>
 									<Nav.Item className="me-4">
-										<LoginModal />
+										<LoginModal show={show} setShow={setShow} />
 									</Nav.Item>
 									<Nav.Item>
-										<RegisterModal />
+										<RegisterModal show={show} setShow={setShow} />
 									</Nav.Item>
 								</>
 							) : (
