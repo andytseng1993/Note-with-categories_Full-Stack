@@ -14,7 +14,6 @@ const NoteDeleteModal = ({ author, title, noteId }: NoteDeleteModalProps) => {
 	const [show, setShow] = useState(false)
 	const navigate = useNavigate()
 	const { currentUser } = useUserAuth()
-	console.log(currentUser)
 
 	const toggle = () => {
 		setShow(!show)

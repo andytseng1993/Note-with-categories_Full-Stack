@@ -5,7 +5,15 @@ import {
 } from '@tanstack/react-query'
 import axios, { AxiosResponse } from 'axios'
 import { FormEvent, useRef, useState } from 'react'
-import { Button, Col, Form, Row, Stack } from 'react-bootstrap'
+import {
+	Button,
+	Col,
+	Form,
+	OverlayTrigger,
+	Row,
+	Stack,
+	Tooltip,
+} from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { useUserAuth } from '../context/UserAuth'
 import { Tag } from './CategoryNoteList'
@@ -16,19 +24,26 @@ interface NoteFormProps {
 	title?: string
 	markdown?: string
 	tags?: Tag[]
+	lock?: boolean
+	author?: string
 }
 
 const NoteForm = ({
 	mutation,
 	title = '',
 	markdown = '',
+	lock = false,
 	tags = [],
+	author = '',
 }: NoteFormProps) => {
 	const { categoryId } = useParams()
 	const [selectTags, setSelectTags] = useState<Tag[]>(tags)
 	const titleRef = useRef<HTMLInputElement>(null)
 	const markdownRef = useRef<HTMLTextAreaElement>(null)
+	const [protect, setProtect] = useState(lock)
 	const { currentUser } = useUserAuth()
+	console.log(protect)
+
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault()
 
@@ -42,6 +57,7 @@ const NoteForm = ({
 			editor: currentUser.userName,
 			tagIdArray: tagIdArray,
 			categoryId: categoryId!,
+			lock: protect,
 		}
 		mutation.mutate(NewNoteData)
 	}
@@ -49,7 +65,7 @@ const NoteForm = ({
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Stack gap={4}>
-				<Row className="mb-3">
+				<Row className="">
 					<Col>
 						<Form.Group controlId="title">
 							<Form.Label>Title</Form.Label>
@@ -71,6 +87,43 @@ const NoteForm = ({
 						</Form.Group>
 					</Col>
 				</Row>
+				<Row>
+					<Col>
+						<OverlayTrigger
+							placement="bottom"
+							delay={{ show: 250, hide: 400 }}
+							overlay={
+								<Tooltip id="button-tooltip">
+									{author === currentUser.userName ||
+									currentUser.role === 'ADMIN' ||
+									author === ''
+										? 'If check this, only the author or Admin can edit.'
+										: 'Only author and Adimin can change protection.'}
+								</Tooltip>
+							}
+						>
+							{
+								<div className="d-inline-block">
+									<Form.Check
+										type="checkbox"
+										label="Protect this note"
+										id="protectCheck"
+										defaultChecked={lock}
+										onChange={(e) => setProtect(e.target.checked)}
+										disabled={
+											!(
+												author === currentUser.userName ||
+												currentUser.role === 'ADMIN' ||
+												author === ''
+											)
+										}
+									/>
+								</div>
+							}
+						</OverlayTrigger>
+					</Col>
+				</Row>
+
 				<Form.Group>
 					<Form.Label>Body</Form.Label>
 					<Form.Control

@@ -37,8 +37,8 @@ const EditPage = () => {
 	})
 	return (
 		<>
-			<Container className="my-5 px-4 ">
-				<h1 className="mb-4">Edit Note</h1>
+			<Container className="my-3 px-4 ">
+				<h1 className="mb-3">Edit Note</h1>
 				{isLoading ? (
 					<h3>Loading...</h3>
 				) : isError ? (
@@ -49,6 +49,8 @@ const EditPage = () => {
 						title={data.title}
 						markdown={data.body}
 						tags={data.tags}
+						lock={data.lock}
+						author={data.author?.userName}
 					/>
 				)}
 			</Container>

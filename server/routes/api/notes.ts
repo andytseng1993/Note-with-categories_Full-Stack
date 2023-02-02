@@ -66,7 +66,8 @@ router.get('/:noteId', async (req, res) => {
                     }
                 },
                 createdAt: true,
-                updateAt: true
+                updateAt: true,
+                lock: true
             }
         })
         return res.status(200).json(notes)
@@ -84,12 +85,13 @@ interface PropsType {
     authorName: string
     categoryId: string
     tagIdArray: TagId[]
+    lock: boolean
 }
 interface TagId {
     id: string
 }
 router.post('/', authMiddleware, async (req, res) => {
-    const { title, body, authorName, tagIdArray, categoryId }: PropsType = req.body
+    const { title, body, authorName, tagIdArray, categoryId, lock }: PropsType = req.body
     try {
         await prisma.note.create({
             data: {
@@ -99,7 +101,8 @@ router.post('/', authMiddleware, async (req, res) => {
                 tags: {
                     connect: tagIdArray
                 },
-                categoryId: categoryId
+                categoryId: categoryId,
+                lock
             }
         })
         return res.status(201).json({ success: true })
@@ -114,7 +117,7 @@ router.post('/', authMiddleware, async (req, res) => {
 //@access Private
 router.put('/:noteId', authMiddleware, async (req, res) => {
     const { noteId } = req.params
-    const { title, body, editor, tagIdArray, categoryId } = req.body
+    const { lock, title, body, editor, tagIdArray, categoryId } = req.body
     try {
         const note = await prisma.note.update({
             where: {
@@ -125,7 +128,8 @@ router.put('/:noteId', authMiddleware, async (req, res) => {
                 body,
                 editor,
                 tags: { set: tagIdArray },
-                categoryId
+                categoryId,
+                lock
             }
         })
         return res.json(note)

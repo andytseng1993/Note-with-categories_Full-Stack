@@ -23,6 +23,7 @@ model Note {
   tagId      String[] @db.ObjectId
   categories Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   categoryId String   @db.ObjectId
+  lock       Boolean  @default(false)
 }
 
 model User {
