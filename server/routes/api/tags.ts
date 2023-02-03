@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import express from 'express'
+import authMiddleware from '../../middleware/authMiddleware'
 
 const router = express.Router()
 const prisma = new PrismaClient()
@@ -11,13 +12,8 @@ const prisma = new PrismaClient()
 router.get('/', async (req, res) => {
     const tags = await prisma.tag.findMany({
         select: {
-            name: true,
-            notes: {
-                select: {
-                    id: true,
-                    title: true
-                }
-            }
+            id: true,
+            label: true
         }
     })
     return res.json(tags)
@@ -25,13 +21,29 @@ router.get('/', async (req, res) => {
 
 //@route POST api/tags
 //@desc return a tag
-//@access Public
-router.post('/', async (req, res) => {
-    const { name, noteId } = req.body
+//@access Private
+router.post('/', authMiddleware, async (req, res) => {
+    const { label } = req.body
     const tag = await prisma.tag.create({
         data: {
-            name,
-            noteId
+            label
+        }
+    })
+    res.status(201).json(tag)
+})
+
+//@route PUT api/tags
+//@desc Add a tag to Note
+//@access Private
+router.put('/:tagId', authMiddleware, async (req, res) => {
+    const { tagId } = req.params
+    const { label } = req.body
+    const tag = await prisma.tag.update({
+        where: {
+            id: tagId
+        },
+        data: {
+            label
         }
     })
     res.status(201).json(tag)
@@ -39,9 +51,9 @@ router.post('/', async (req, res) => {
 
 //@route DELETE api/tags
 //@desc return a tag
-//@access Public
+//@access Private
 
-router.delete('/:tagId', async (req, res) => {
+router.delete('/:tagId', authMiddleware, async (req, res) => {
     const { tagId } = req.params
     try {
         await prisma.tag.delete({
@@ -49,7 +61,7 @@ router.delete('/:tagId', async (req, res) => {
                 id: tagId
             }
         })
-        res.status(204)
+        res.status(204).json({ success: true })
     } catch (error) {
         res.status(404).json({ success: false })
     }

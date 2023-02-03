@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import express from 'express'
+import authMiddleware from '../../middleware/authMiddleware';
 
 const prisma = new PrismaClient()
 const router = express.Router()
@@ -8,59 +9,115 @@ const router = express.Router()
 //@desc return All notes
 //@access Public
 router.get('/', async (req, res) => {
-    const notes = await prisma.note.findMany()
-    return res.json(notes)
-})
-
-//@route GET api/notes/:categoryId
-//@desc return All notes in category and author name
-//@access Public
-router.get('/:categoryId', async (req, res) => {
-    const { categoryId } = req.params
     const notes = await prisma.note.findMany({
-        where: {
-            id: categoryId
+        orderBy: {
+            createdAt: 'desc'
         },
         select: {
+            id: true,
             title: true,
-            body: true,
-            updateAt: true,
             createdAt: true,
-            author: {
+            tags: {
                 select: {
-                    name: true
+                    id: true,
+                    label: true
+                }
+            },
+            categories: {
+                select: {
+                    id: true
                 }
             }
+
         }
     })
-    return res.json(notes)
+    return res.status(200).json(notes)
 })
 
-//@route POST api/notes:categoryId
-//desc return A new note
+//@route GET api/notes/:noteId
+//@desc return unique note
 //@access Public
-router.post('/:categoryId', async (req, res) => {
-    const { categoryId } = req.params
-    const { title, body, authorId, tagId } = req.body
-    const note = await prisma.note.create({
-        data: {
-            title,
-            body,
-            authorId,
-            tagId,
-            categoryId
-        }
-    })
-    return res.status(201).json(note)
+router.get('/:noteId', async (req, res) => {
+    const { noteId } = req.params
+    try {
+        const notes = await prisma.note.findUnique({
+            where: {
+                id: noteId
+            },
+            select: {
+                title: true,
+                body: true,
+                author: {
+                    select: {
+                        userName: true
+                    }
+                },
+                editor: true,
+                tags: {
+                    select: {
+                        id: true,
+                        label: true
+                    }
+                },
+                categories: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                createdAt: true,
+                updateAt: true,
+                lock: true
+            }
+        })
+        return res.status(200).json(notes)
+    } catch (error) {
+        return res.status(400).json({ error })
+    }
+})
+
+//@route POST api/notes/
+//@desc return new note
+//@access Private
+interface PropsType {
+    title: string
+    body: string
+    authorName: string
+    categoryId: string
+    tagIdArray: TagId[]
+    lock: boolean
+}
+interface TagId {
+    id: string
+}
+router.post('/', authMiddleware, async (req, res) => {
+    const { title, body, authorName, tagIdArray, categoryId, lock }: PropsType = req.body
+    try {
+        await prisma.note.create({
+            data: {
+                title,
+                body,
+                authorName,
+                tags: {
+                    connect: tagIdArray
+                },
+                categoryId: categoryId,
+                lock
+            }
+        })
+        return res.status(201).json({ success: true })
+    } catch (error) {
+        res.status(404).json({ success: false })
+    }
 })
 
 
-//@route PUT api/notes/:categoryId/:noteId
+//@route PUT api/notes/:noteId
 //@desc return a note in category
-//@access Public
-router.put('/:categoryId/:noteId', async (req, res) => {
-    const { categoryId, noteId } = req.params
-    const { title, body, authorId, tagId } = req.body
+//@access Private
+router.put('/:noteId', authMiddleware, async (req, res) => {
+    const { noteId } = req.params
+    const { lock, title, body, editor, tagIdArray, categoryId } = req.body
     try {
         const note = await prisma.note.update({
             where: {
@@ -69,21 +126,23 @@ router.put('/:categoryId/:noteId', async (req, res) => {
             data: {
                 title,
                 body,
-                authorId,
-                tagId,
-                categoryId
+                editor,
+                tags: { set: tagIdArray },
+                categoryId,
+                lock
             }
         })
         return res.json(note)
     } catch (error) {
-        throw res.status(400).json({ error })
+        return res.status(400).json({ error })
     }
 })
 
-//@route DELETE api/notes/:categoryId/:noteId
+
+//@route DELETE api/notes/:noteId
 //@desc return a note in category
-//@access Public
-router.delete('/:noteId', async (req, res) => {
+//@access Private
+router.delete('/:noteId', authMiddleware, async (req, res) => {
     const { noteId } = req.params
     try {
         await prisma.note.delete({
@@ -91,9 +150,9 @@ router.delete('/:noteId', async (req, res) => {
                 id: noteId
             }
         })
-        return res.status(204)
+        return res.status(204).json({ success: true })
     } catch (error) {
-        res.status(404).json({ success: false })
+        return res.status(404).json({ success: false })
     }
 })
 

@@ -1,5 +1,6 @@
 import express from 'express'
 import { PrismaClient } from '@prisma/client'
+import authMiddleware from '../../middleware/authMiddleware'
 
 const router = express.Router()
 const prisma = new PrismaClient()
@@ -19,11 +20,49 @@ router.get('/', async (req, res) => {
     return res.json(category)
 })
 
+//@route GET api/categories/:id
+//@desc All notes in one category
+//@access Public
+router.get('/:id', async (req, res) => {
+    const { id } = req.params
+    try {
+        const category = await prisma.category.findUnique({
+            where: {
+                id
+            },
+            select: {
+                notes: {
+                    select: {
+                        id: true,
+                        title: true,
+                        body: true,
+                        createdAt: true,
+                        updateAt: true,
+                        tags: {
+                            select: {
+                                id: true,
+                                label: true
+                            }
+                        }
+                    },
+                    orderBy: {
+                        updateAt: 'desc'
+                    }
+                }
+            }
+        })
+        return res.json(category)
+    } catch (error) {
+        return res.status(404).json('Cannot find the category')
+    }
+})
+
 //@route POST api/categories
 //desc return A category
-//@access Public
-router.post('/', async (req, res) => {
+//@access Private
+router.post('/', authMiddleware, async (req, res) => {
     const { name } = req.body
+    if (name.trim() === '') return res.status(401).json('Please enter all fields.')
     const category = await prisma.category.create({
         data: {
             name
@@ -34,8 +73,8 @@ router.post('/', async (req, res) => {
 
 //@route PUT api/categories/:id
 //@desc A category
-//@access Public
-router.put('/:id', async (req, res) => {
+//@access Private
+router.put('/:id', authMiddleware, async (req, res) => {
     const { id } = req.params
     const { name } = req.body
     try {
@@ -55,14 +94,14 @@ router.put('/:id', async (req, res) => {
 
 //@route DELETE api/categories/:id
 //@desc A category
-//@access Public
-router.delete('/:id', async (req, res) => {
+//@access Private
+router.delete('/:id', authMiddleware, async (req, res) => {
     const { id } = req.params
     try {
         await prisma.category.delete({
             where: { id }
         })
-        return res.status(204)
+        return res.status(204).json({ success: true })
     } catch (error) {
         res.status(404).json({ success: false })
     }

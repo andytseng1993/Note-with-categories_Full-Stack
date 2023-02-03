@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import express from 'express'
 import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
@@ -10,8 +10,8 @@ const secret: string = process.env.PRIVATE_KEY ?? 'secret'
 //@desc Register user
 //@access Public
 router.post('/', async (req, res) => {
-    const { email, name, password } = req.body
-    if (!email || !name || !password) res.status(400).json('Please enter all fields.')
+    const { email, userName, password } = req.body
+    if (!email || !userName || !password) res.status(400).json('Please enter all fields.')
 
     //Create salt & hash
     bcrypt.genSalt(10, (err, salt) => {
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
                 const user = await prisma.user.create({
                     data: {
                         email,
-                        name,
+                        userName,
                         password: hash
                     }
                 })
@@ -33,18 +33,21 @@ router.post('/', async (req, res) => {
                             .cookie('_session_Id', token, {
                                 secure: true,
                                 httpOnly: true,
-                                sameSite: "none",
-                                maxAge: 360000
+                                sameSite: "strict",
+                                maxAge: 3600000
                             })
                             .json({
                                 user: {
-                                    email: user.email,
-                                    name: user.name
+                                    userName: user.userName
                                 }
                             })
                     })
             } catch (error) {
-                res.status(404).json({ error: `Email already exists.` })
+                if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                    // The .code property can be accessed in a type-safe manner
+                    return res.status(404).json({ code: error.code, target: error.meta?.target })
+                }
+                res.status(404).json(error)
             }
         })
     })
@@ -62,26 +65,25 @@ router.post('/login', async (req, res) => {
             email
         }
     })
-    if (!user) return res.status(400).json('Cannot find user!')
+    if (!user) return res.status(400).json('Please provide a valid email address and password.')
     try {
         bcrypt.compare(password, user.password)
             .then(isMach => {
-                if (!isMach) return res.status(400).json('Invalid credentials')
+                if (!isMach) return res.status(400).json('Please provide a valid email address and password.')
 
                 jwt.sign({ id: user.id }, secret, { expiresIn: '1h' },
                     (err, token) => {
                         if (err) throw err
-                        return res.status(201)
+                        return res.status(200)
                             .cookie('_session_Id', token, {
-                                secure: true,
+                                secure: false,
                                 httpOnly: true,
-                                sameSite: "none",
-                                maxAge: 360000
+                                sameSite: "strict",
+                                maxAge: 3600000
                             })
                             .json({
                                 user: {
-                                    email: user.email,
-                                    name: user.name
+                                    userName: user.userName
                                 }
                             })
                     })
