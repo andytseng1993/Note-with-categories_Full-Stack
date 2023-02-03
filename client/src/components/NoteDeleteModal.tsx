@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useState } from 'react'
 import { Button, Modal, Stack } from 'react-bootstrap'
@@ -14,6 +14,7 @@ const NoteDeleteModal = ({ author, title, noteId }: NoteDeleteModalProps) => {
 	const [show, setShow] = useState(false)
 	const navigate = useNavigate()
 	const { currentUser } = useUserAuth()
+	const queryClient = useQueryClient()
 
 	const toggle = () => {
 		setShow(!show)
@@ -23,6 +24,7 @@ const NoteDeleteModal = ({ author, title, noteId }: NoteDeleteModalProps) => {
 			return axios.delete(`/api/notes/${noteId}`)
 		},
 		onSuccess: () => {
+			queryClient.invalidateQueries(['categories'])
 			toggle()
 			navigate('..')
 		},

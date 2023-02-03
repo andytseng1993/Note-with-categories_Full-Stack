@@ -16,7 +16,7 @@ const CategoryModal = () => {
 	})
 	const mutation = useMutation({
 		mutationFn: (newCategory: { name: string }) => {
-			return axios.post('api/categories', newCategory)
+			return axios.post('/api/categories', newCategory)
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['categories'] })

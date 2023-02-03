@@ -42,7 +42,6 @@ const NoteForm = ({
 	const markdownRef = useRef<HTMLTextAreaElement>(null)
 	const [protect, setProtect] = useState(lock)
 	const { currentUser } = useUserAuth()
-	console.log(protect)
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault()

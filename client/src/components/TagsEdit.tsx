@@ -20,7 +20,7 @@ const TagsEdit = () => {
 
 	const mutationDelete = useMutation({
 		mutationFn: (id: string) => {
-			return axios.delete(`api/tags/${id}`)
+			return axios.delete(`/api/tags/${id}`)
 		},
 		onSuccess: () => {
 			toggle()
@@ -29,7 +29,7 @@ const TagsEdit = () => {
 	})
 	const mutationEdit = useMutation({
 		mutationFn: async (editTag: Tag) => {
-			const { data } = await axios.put(`api/tags/${editTag.id}`, {
+			const { data } = await axios.put(`/api/tags/${editTag.id}`, {
 				label: editTag!.label,
 			})
 			return data

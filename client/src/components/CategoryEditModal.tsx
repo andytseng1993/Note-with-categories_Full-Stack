@@ -26,7 +26,7 @@ const CategoryEditModal = () => {
 
 	const mutationDelete = useMutation({
 		mutationFn: (id: string) => {
-			return axios.delete(`api/categories/${id}`)
+			return axios.delete(`/api/categories/${id}`)
 		},
 		onSuccess: () => {
 			toggle()
@@ -36,7 +36,7 @@ const CategoryEditModal = () => {
 	})
 	const mutationEdit = useMutation({
 		mutationFn: async (editCategory: SelectCategory) => {
-			const { data } = await axios.put(`api/categories/${editCategory.id}`, {
+			const { data } = await axios.put(`/api/categories/${editCategory.id}`, {
 				name: editCategory!.name,
 			})
 			return data
