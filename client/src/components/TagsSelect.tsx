@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { Dispatch, SetStateAction, useState } from 'react'
-import Select from 'react-select'
+import Select, { SingleValue } from 'react-select'
 import { Tag } from './CategoryNoteList'
 interface Option {
 	readonly label: string
@@ -46,7 +46,8 @@ const TagsSelect = ({
 						})
 					)
 				} else {
-					setSelectTags([{ label: newOptions?.label, id: newOptions!.value }])
+					const newOption = newOptions as { label: string; value: string }
+					setSelectTags([{ label: newOption?.label, id: newOption!.value }])
 				}
 			}}
 			value={selectTags.map((tag) => {
