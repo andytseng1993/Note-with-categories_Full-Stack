@@ -97,7 +97,7 @@ To get differrent Prisma-specific error code.
   - api/users/login -- POST --> Login
   - api/users --POST --> Register
 
-## (Modeling and querying many-to-many relations)[https://www.prisma.io/docs/guides/database/troubleshooting-orm/help-articles/working-with-many-to-many-relations]
+## [Modeling and querying many-to-many relations](https://www.prisma.io/docs/guides/database/troubleshooting-orm/help-articles/working-with-many-to-many-relations)
 
 1. To create a post and its tags, use `tags: { create: [{ name: 'dev' }, { name: 'prisma' }] }`
 2. To select existing tags to post, use `tags: { set: [{ id: 1 }, { id: 2 }] },`

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Button, Modal, Nav, Spinner, Stack } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { useUserAuth } from '../../context/UserAuth'
 import { useUserToasts } from '../../context/UserToasts'
 
 const Logout = () => {
@@ -10,23 +11,26 @@ const Logout = () => {
 	const navigate = useNavigate()
 	const [show, setShow] = useState(false)
 	const { setToastShow, setToastContent } = useUserToasts()
+	const { currentUser } = useUserAuth()
 
 	const mutation = useMutation({
-		mutationFn: async () => {
-			await axios.get('/api/auth/logout')
+		mutationFn: async (user: object) => {
+			await axios.post('/api/auth/logout', user)
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['user'] })
+			mutation.reset()
 			navigate('/')
 			setToastShow(true)
 			setToastContent({
 				header: `See you next time :)`,
 				body: 'Success Log Out!',
 			})
+			toggle()
 		},
 	})
 	const logout = () => {
-		mutation.mutate()
+		mutation.mutate({ user: currentUser.userName! })
 	}
 	const toggle = () => {
 		setShow(false)

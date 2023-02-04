@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
                             .cookie('_session_Id', token, {
                                 secure: true,
                                 httpOnly: true,
-                                sameSite: "strict",
+                                sameSite: "lax",
                                 maxAge: 3600000
                             })
                             .json({
@@ -76,9 +76,9 @@ router.post('/login', async (req, res) => {
                         if (err) throw err
                         return res.status(200)
                             .cookie('_session_Id', token, {
-                                secure: false,
+                                secure: true,
                                 httpOnly: true,
-                                sameSite: "strict",
+                                sameSite: "lax",
                                 maxAge: 3600000
                             })
                             .json({

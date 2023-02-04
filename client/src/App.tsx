@@ -34,7 +34,7 @@ function App() {
 						</Route>
 					</Route>
 				</Route>
-				{/* <Route path="*" element={<Navigate to="/" />}></Route> */}
+				<Route path="*" element={<Navigate to="/" />}></Route>
 			</Route>
 		)
 	)

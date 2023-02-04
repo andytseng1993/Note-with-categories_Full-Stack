@@ -32,18 +32,19 @@ router.get('/user', async (req, res) => {
         res.status(400).json(error)
     }
 })
-//@route GET api/auth/logout,
+//@route POST api/auth/logout,
 //@desc Auth user
 //@access Public
-router.get('/logout', async (req, res) => {
+router.post('/logout', async (req, res) => {
+    const { user } = req.body
     try {
         return res.status(200)
-            .cookie('_session_Id', '', {
-                secure: false,
+            .cookie('_session_Id', `${user}`, {
+                secure: true,
                 httpOnly: true,
-                sameSite: "strict",
+                sameSite: "lax",
                 maxAge: 0
-            }).json('logout success')
+            }).json(`${user} logout success`)
     } catch (error) {
         res.status(500)
     }
