@@ -1,5 +1,5 @@
 {
-  "name": "note-with-category",
+  "name": "mern-prisma-ts-note",
   "version": "1.0.0",
   "description": "Markdown Supported Note Taking With Categories",
   "main": "server.js",
@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.15",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "^18.11.18",
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "cors": "^2.8.5"
   }
 }

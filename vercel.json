@@ -1,8 +1,7 @@
 {
-    "version": 2,
     "builds": [
       {
-        "src": "./server/script.ts",  
+        "src": "./script.ts",  
         "use": "@vercel/node"
       },
       {

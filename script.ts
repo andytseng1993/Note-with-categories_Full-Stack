@@ -23,13 +23,14 @@ app.use('/api/tags', tags)
 app.use('/api/users',users)
 app.use('/api/auth',auth)
 
-app.use(express.static(path.join(__dirname,'./client/dist')))
-
+app.use(express.static(path.join(__dirname,'./client/dist')))    
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'./client/dist/index.html'))
 })
 
 app.listen(port,()=>console.log(`Sever started on port ${port}`))
+
+
 
 // async function main() {
 //     // Connect the client
