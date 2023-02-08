@@ -1,8 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios, { AxiosResponse } from 'axios'
+import { useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import NoteForm from '../components/NoteForm'
+import { useUserAuth } from '../context/UserAuth'
 
 export interface NoteMutateType {
 	title: string
@@ -19,6 +21,8 @@ const EditPage = () => {
 	const { noteId } = useParams()
 	const navigate = useNavigate()
 	const queryClient = useQueryClient()
+	const { currentUser } = useUserAuth()
+
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ['notes', noteId],
 		queryFn: async () => {
@@ -35,6 +39,19 @@ const EditPage = () => {
 			navigate('..')
 		},
 	})
+
+	useEffect(() => {
+		if (!data) return
+		if (!currentUser) return
+		if (
+			data.lock &&
+			currentUser.role !== 'ADMIN' &&
+			currentUser.userName !== data.author.userName
+		) {
+			navigate('..')
+		}
+	}, [data, currentUser.userName])
+
 	return (
 		<>
 			<Container className="my-3 px-4 ">
